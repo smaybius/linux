@@ -432,6 +432,25 @@ static const struct clk_rpmh_desc clk_rpmh_sdx55 = {
 	.num_clks = ARRAY_SIZE(sdx55_rpmh_clocks),
 };
 
+static struct clk_hw *sm7150_rpmh_clocks[] = {
+        [RPMH_CXO_CLK]          = &clk_rpmh_bi_tcxo_div2.hw,
+        [RPMH_CXO_CLK_A]        = &clk_rpmh_bi_tcxo_div2_ao.hw,
+        [RPMH_LN_BB_CLK2]	= &clk_rpmh_ln_bb_clk2_a2.hw,
+        [RPMH_LN_BB_CLK2_A]     = &clk_rpmh_ln_bb_clk2_a2_ao.hw,
+        [RPMH_LN_BB_CLK3]	= &clk_rpmh_ln_bb_clk3_a2.hw,
+        [RPMH_LN_BB_CLK3_A]     = &clk_rpmh_ln_bb_clk3_a2_ao.hw,
+        [RPMH_RF_CLK1]          = &clk_rpmh_rf_clk1_a.hw,
+        [RPMH_RF_CLK1_A]        = &clk_rpmh_rf_clk1_a_ao.hw,
+        [RPMH_RF_CLK2]          = &clk_rpmh_rf_clk2_a.hw,
+        [RPMH_RF_CLK2_A]        = &clk_rpmh_rf_clk2_a_ao.hw,
+        [RPMH_IPA_CLK]          = &clk_rpmh_ipa.hw,
+};
+
+static const struct clk_rpmh_desc clk_rpmh_sm7150 = {
+	.clks = sm7150_rpmh_clocks,
+	.num_clks = ARRAY_SIZE(sm7150_rpmh_clocks),
+};
+
 static struct clk_hw *sm8150_rpmh_clocks[] = {
 	[RPMH_CXO_CLK]		= &clk_rpmh_bi_tcxo_div2.hw,
 	[RPMH_CXO_CLK_A]	= &clk_rpmh_bi_tcxo_div2_ao.hw,
@@ -738,6 +757,7 @@ static const struct of_device_id clk_rpmh_match_table[] = {
 	{ .compatible = "qcom,sdx55-rpmh-clk",  .data = &clk_rpmh_sdx55},
 	{ .compatible = "qcom,sdx65-rpmh-clk",  .data = &clk_rpmh_sdx65},
 	{ .compatible = "qcom,sm6350-rpmh-clk", .data = &clk_rpmh_sm6350},
+	{ .compatible = "qcom,sm7150-rpmh-clk", .data = &clk_rpmh_sm7150},
 	{ .compatible = "qcom,sm8150-rpmh-clk", .data = &clk_rpmh_sm8150},
 	{ .compatible = "qcom,sm8250-rpmh-clk", .data = &clk_rpmh_sm8250},
 	{ .compatible = "qcom,sm8350-rpmh-clk", .data = &clk_rpmh_sm8350},
