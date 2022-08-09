@@ -8,6 +8,8 @@ title: Qualcomm Global Clock & Reset Controller on SM7150
 
 maintainers:
   - Bjorn Andersson <andersson@kernel.org>
+  - Danila Tikhonov <danila@jiaxyga.com>
+  - David Wronek <davidwronek@gmail.com>
 
 description: |
   Qualcomm global clock control module provides the clocks, resets and power
@@ -25,14 +27,26 @@ properties:
       - description: Board XO Active-Only source
       - description: Sleep clock source
 
+  '#clock-cells':
+    const: 1
+
+  '#reset-cells':
+    const: 1
+
+  '#power-domain-cells':
+    const: 1
+
 required:
   - compatible
   - clocks
+  - '#clock-cells'
+  - '#reset-cells'
+  - '#power-domain-cells'
 
 allOf:
   - $ref: qcom,gcc.yaml#
 
-additionalProperties: false
+unevaluatedProperties: false
 
 examples:
   - |
@@ -48,3 +62,4 @@ examples:
       #power-domain-cells = <1>;
     };
 ...
+
