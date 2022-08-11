@@ -37,6 +37,21 @@
 		};
 	};
 
+	gpio-keys {
+		compatible = "gpio-keys";
+		label = "Volume key";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&key_vol_up_default>;
+
+		volume-up {
+			label = "Volume up";
+			linux,code = <KEY_VOLUMEUP>;
+			gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
+			debounce-interval = <15>;
+		};
+	};
+
 	reserved-memory {
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -322,6 +337,24 @@
 	};
 };
 
+&pm6150_pon {
+	pm6150_resin: resin {
+		compatible = "qcom,pm8941-resin";
+		interrupts = <0x0 0x8 1 IRQ_TYPE_EDGE_BOTH>;
+		debounce = <15625>;
+		bias-pull-up;
+		linux,code = <KEY_VOLUMEDOWN>;
+	};
+};
+
 &tlmm {
 	gpio-reserved-ranges = <0 4>, <34 4>, <59 4>;
+
+	key_vol_up_default: key_vol_up_default {
+		pins = "gpio8";
+		function = "normal";
+		input-enable;
+		bias-pull-up;
+		power-source = <0>;
+	};
 };
