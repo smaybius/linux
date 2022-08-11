@@ -31,6 +31,7 @@ properties:
               - qcom,sm4250-apcs-hmss-global
               - qcom,sm6125-apcs-hmss-global
               - qcom,sm6115-apcs-hmss-global
+              - qcom,sm7150-apss-shared
               - qcom,sm8150-apss-shared
       - items:
           - enum:
@@ -79,6 +80,7 @@ allOf:
             - qcom,sdm660-apcs-hmss-global
             - qcom,sdm845-apss-shared
             - qcom,sm6125-apcs-hmss-global
+            - qcom,sm7150-apss-shared
             - qcom,sm8150-apss-shared
     then:
       properties:
