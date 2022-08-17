@@ -524,8 +524,8 @@
 			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
 		};
 
-		apcs_glb: mailbox@17c00000 {
-			compatible = "qcom,qcom,sm7150-apcs-hmss-global";
+		apss_shared: mailbox@17c00000 {
+			compatible = "qcom,sm7150-apss-shared";
 			reg = <0x0 0x17c00000 0x0 0x1000>;
 			#mbox-cells = <1>;
 		};
