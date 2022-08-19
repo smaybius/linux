@@ -14,7 +14,7 @@
 #include "pm8150l.dtsi"
 
 /delete-node/ &adsp_mem;
-/delete-node/ &wlan_mem;
+/delete-node/ &wlan_msa_mem;
 /delete-node/ &npu_mem;
 /delete-node/ &ipa_fw_mem;
 /delete-node/ &ipa_gsi_mem;
@@ -57,7 +57,7 @@
 			no-map;
 		};
 
-		wlan_mem: memory@97d00000 {
+		wlan_msa_mem: memory@97d00000 {
 			reg = <0x0 0x97d00000 0x0 0x180000>;
 			no-map;
 		};

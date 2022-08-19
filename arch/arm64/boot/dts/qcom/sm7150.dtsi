@@ -352,7 +352,7 @@
 			no-map;
 		};
 
-		wlan_mem: memory@97500000 {
+		wlan_msa_mem: memory@97500000 {
 			reg = <0x0 0x97500000 0x0 0x180000>;
 			no-map;
 		};
