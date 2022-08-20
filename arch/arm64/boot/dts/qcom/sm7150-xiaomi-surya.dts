@@ -154,7 +154,11 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
-		/* L6 is unused. */
+		vreg_l6a_1p2: ldo6 {
+			regulator-min-microvolt = <1096000>;
+			regulator-max-microvolt = <1304000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
 
 		vreg_l9a_0p8: ldo9 {
 			regulator-min-microvolt = <624000>;
