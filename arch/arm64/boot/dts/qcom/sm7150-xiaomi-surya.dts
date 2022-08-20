@@ -53,7 +53,7 @@
 		volume-up {
 			label = "Volume up";
 			linux,code = <KEY_VOLUMEUP>;
-			gpios = <&tlmm 8 GPIO_ACTIVE_LOW>;
+			gpios = <&pm8150l_gpios 2 GPIO_ACTIVE_LOW>;
 			debounce-interval = <15>;
 		};
 	};
@@ -358,6 +358,16 @@
 	};
 };
 
+&pm8150l_gpios {
+	key_vol_up_default: key_vol_up_default {
+		pins = "gpio2";
+		function = "normal";
+		input-enable;
+		bias-pull-up;
+		power-source = <0>;
+	};
+};
+
 &remoteproc_cdsp {
 	status = "okay";
 	firmware-name = "qcom/sm7150/surya/cdsp.mbn";
@@ -420,14 +430,6 @@
 
 &tlmm {
 	gpio-reserved-ranges = <59 4>;
-
-	key_vol_up_default: key_vol_up_default {
-		pins = "gpio8";
-		function = "normal";
-		input-enable;
-		bias-pull-up;
-		power-source = <0>;
-	};
 
 	sdc2_on: sdc2-on {
 		pinconf-clk {
