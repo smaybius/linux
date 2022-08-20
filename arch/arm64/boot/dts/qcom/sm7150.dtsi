@@ -694,7 +694,7 @@
 					};
 
 					rpmhpd_opp_svs_l2: opp6 {
-						opp-level = <224>;
+						opp-level = <RPMH_REGULATOR_LEVEL_SVS_L2>;
 					};
 
 					rpmhpd_opp_nom: opp7 {
