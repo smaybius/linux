@@ -348,6 +348,27 @@
 	};
 };
 
+&i2c1 {
+	status = "okay";
+
+	/* awinic,aw8624_haptic @ 5a */
+};
+
+&i2c9 {
+	status = "okay";
+
+	/* longcheer,wl2866d @ 28 */
+	/* ti,bq2597x-standalone (charger) @ 65 */
+};
+
+&qupv3_id_0 {
+	status = "okay";
+};
+
+&qupv3_id_1 {
+	status = "okay";
+};
+
 &pm6150_pon {
 	pm6150_resin: resin {
 		compatible = "qcom,pm8941-resin";
