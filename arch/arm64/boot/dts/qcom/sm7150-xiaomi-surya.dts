@@ -419,7 +419,7 @@
 };
 
 &tlmm {
-	gpio-reserved-ranges = <0 4>, <34 4>, <59 4>;
+	gpio-reserved-ranges = <59 4>;
 
 	key_vol_up_default: key_vol_up_default {
 		pins = "gpio8";
