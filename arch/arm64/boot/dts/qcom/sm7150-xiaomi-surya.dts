@@ -43,6 +43,14 @@
 		};
 	};
 
+	bat: battery {
+		compatible = "simple-battery";
+		constant-charge-current-max-microamp = <2500000>; //FIXME
+		constant-charge-voltage-max-microvolt = <4100000>; //FIXME
+		precharge-current-microamp = <160000>; //FIXME
+		charge-term-current-microamp = <160000>; //FIXME
+	};
+
 	gpio-keys {
 		compatible = "gpio-keys";
 		label = "Volume key";
@@ -356,9 +364,26 @@
 
 &i2c9 {
 	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
 
 	/* longcheer,wl2866d @ 28 */
-	/* ti,bq2597x-standalone (charger) @ 65 */
+
+	bq2597x: charger@65 {
+		compatible = "ti,bq25975";
+		reg = <0x65>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <42 IRQ_TYPE_EDGE_FALLING>;
+		pinctrl-names = "bq_charger_active", "bq_charger_suspend";
+		pinctrl-0 = <&bq_charger_int_active>;
+		pinctrl-1 = <&bq_charger_int_suspend>;
+		ti,watchdog-timeout-ms = <0>;
+		ti,sc-ocp-limit-microamp = <5750000>; //FIXME (5750000 - 5750000)
+		ti,sc-ovp-limit-microvolt = <7000000>; //FIXME (7000000 - 12750000)
+		//ti,bypass-ocp-limit-microamp = <5750000>; //FIXME (1000000 - 8500000)
+		//ti,bypass-ovp-limit-microvolt = <7000000>; //FIXME (3500000 - 6500000)
+		monitored-battery = <&bat>;
+	};
 };
 
 &qupv3_id_0 {
@@ -451,6 +476,32 @@
 
 &tlmm {
 	gpio-reserved-ranges = <59 4>;
+
+	bq_charger_int_active: bq_charger_int_active {
+		mux {
+			pins = "gpio43";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio43";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+
+	bq_charger_int_suspend: bq_charger_int_suspend {
+		mux {
+			pins = "gpio43";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio43";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
 
 	sdc2_on: sdc2-on {
 		pinconf-clk {
