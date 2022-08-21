@@ -3,11 +3,14 @@
  * SM7150-AC Xiaomi Redmi Note 10 Pro specific device tree
  *
  * Copyright (c) 2022, Danila Tikhonov <JIaxyga@protonmail.com>
+ * Copyright (c) 2022, Kali Prasad <kprasadvnsi@protonmail.com>
  */
 
 /dts-v1/;
 
+#include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+#include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
 
 #include "sm7150.dtsi"
 #include "pm6150.dtsi"
@@ -355,4 +358,8 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 	};
+};
+
+&tlmm {
+	gpio-reserved-ranges = <0 4>, <59 4>;
 };
