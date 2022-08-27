@@ -525,6 +525,10 @@
 		reg = <0>;
 
 		spi-max-frequency = <8000000>;
+
+		touch_vddio-supply = <&vreg_l18a_2p8>;
+
+		novatek,reset-gpio = <&tlmm 8 0>;
 		novatek,irq-gpio = <&tlmm 9 0x2001>;
 
 		/* 672C */
