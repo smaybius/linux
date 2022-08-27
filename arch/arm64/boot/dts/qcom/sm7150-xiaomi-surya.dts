@@ -517,6 +517,18 @@
 	vdda-phy-dpdm-supply = <&vreg_l17a_3p1>;
 };
 
+&spi0 {
+	status = "okay";
+
+	/* novatek,NVT-ts @ 0 */
+};
+
+&spi11 {
+	status = "okay";
+
+	/* qcom,spi-msm-codec-slave @ 1 */
+};
+
 &tlmm {
 	gpio-reserved-ranges = <59 4>;
 
