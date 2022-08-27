@@ -362,6 +362,12 @@
 	/* awinic,aw8624_haptic @ 5a */
 };
 
+&i2c2 {
+	status = "okay";
+
+	/* qcom,nq-nci @ 28 */
+};
+
 &i2c9 {
 	status = "okay";
 	#address-cells = <1>;
