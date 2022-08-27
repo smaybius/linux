@@ -23,6 +23,14 @@
 	qcom,msm-id = <0x16d 0x00>;
 	qcom,board-id = <0x22 0x00>;
 
+	bat: battery {
+		compatible = "simple-battery";
+		constant-charge-current-max-microamp = <2500000>; //FIXME
+		constant-charge-voltage-max-microvolt = <4100000>; //FIXME
+		precharge-current-microamp = <160000>; //FIXME
+		charge-term-current-microamp = <160000>; //FIXME
+	};
+
 	chosen {
 		#address-cells = <2>;
 		#size-cells = <2>;
@@ -41,14 +49,6 @@
 			clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
 				 <&gcc GCC_DISP_SF_AXI_CLK>;
 		};
-	};
-
-	bat: battery {
-		compatible = "simple-battery";
-		constant-charge-current-max-microamp = <2500000>; //FIXME
-		constant-charge-voltage-max-microvolt = <4100000>; //FIXME
-		precharge-current-microamp = <160000>; //FIXME
-		charge-term-current-microamp = <160000>; //FIXME
 	};
 
 	gpio-keys {
@@ -421,14 +421,6 @@
 	};
 };
 
-&qupv3_id_0 {
-	status = "okay";
-};
-
-&qupv3_id_1 {
-	status = "okay";
-};
-
 &pm6150_pon {
 	pm6150_resin: resin {
 		compatible = "qcom,pm8941-resin";
@@ -455,6 +447,14 @@
 		output-low;
 		input-disable;
 	};
+};
+
+&qupv3_id_0 {
+	status = "okay";
+};
+
+&qupv3_id_1 {
+	status = "okay";
 };
 
 &remoteproc_cdsp {
@@ -495,6 +495,12 @@
 	};
 };
 
+&spi11 {
+	status = "okay";
+
+	/* qcom,spi-msm-codec-slave @ 1 */
+};
+
 &ufs_mem_hc {
 	status = "okay";
 
@@ -531,18 +537,6 @@
 	vdd-supply = <&vreg_l4a_0p88>;
 	vdda-pll-supply = <&vreg_l11a_1p8>;
 	vdda-phy-dpdm-supply = <&vreg_l17a_3p1>;
-};
-
-&spi0 {
-	status = "okay";
-
-	/* novatek,NVT-ts @ 0 */
-};
-
-&spi11 {
-	status = "okay";
-
-	/* qcom,spi-msm-codec-slave @ 1 */
 };
 
 &tlmm {
