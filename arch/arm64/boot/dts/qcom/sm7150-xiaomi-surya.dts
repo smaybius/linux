@@ -53,13 +53,11 @@
 
 	gpio-keys {
 		compatible = "gpio-keys";
-		label = "Volume key";
-
 		pinctrl-names = "default";
 		pinctrl-0 = <&key_vol_up_default>;
 
-		volume-up {
-			label = "Volume up";
+		key-vol-up {
+			label = "Volume Up";
 			linux,code = <KEY_VOLUMEUP>;
 			gpios = <&pm8150l_gpios 2 GPIO_ACTIVE_LOW>;
 			debounce-interval = <15>;
