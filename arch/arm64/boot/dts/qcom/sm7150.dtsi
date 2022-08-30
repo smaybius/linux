@@ -1121,7 +1121,8 @@
 
 			qup_uart3_default: qup-uart3-default {
 				pinmux {
-					pins = "gpio38", "gpio41";
+					pins = "gpio38", "gpio39",
+					       "gpio40", "gpio41";
 					function = "qup03";
 				};
 			};
