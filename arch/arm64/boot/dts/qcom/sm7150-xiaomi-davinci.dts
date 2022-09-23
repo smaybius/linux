@@ -443,7 +443,7 @@
 	/* nxp,tfa98xx (speaker amplifier) @ 34 */
 };
 
-&i2c4 {
+&i2c7 {
 	status = "okay";
 	clock-frequency = <100000>;
 
@@ -486,18 +486,6 @@
 &remoteproc_mpss {
 	status = "okay";
 	firmware-name = "qcom/sm7150/davinci/modem.mbn";
-};
-
-&sdhc_2 {
-	status = "okay";
-
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&sdc2_on>;
-	pinctrl-1 = <&sdc2_off>;
-	vmmc-supply = <&vreg_l9c_3p1>;
-	vqmmc-supply = <&vreg_l6c_3p0>;
-
-	cd-gpios = <&tlmm 69 GPIO_ACTIVE_HIGH>;
 };
 
 &uart3 {
