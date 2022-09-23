@@ -387,6 +387,10 @@
 	};
 };
 
+&dispcc {
+	status = "okay";
+};
+
 &dsi0 {
 	status = "okay";
 
