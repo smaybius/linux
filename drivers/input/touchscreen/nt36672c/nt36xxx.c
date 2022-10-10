@@ -2477,10 +2477,14 @@ static int32_t __init nvt_driver_init(void)
 	} else {
 		if (strnstr(saved_command_line, "huaxing", strlen(saved_command_line)) != NULL) {
 			touch_vendor_id = TP_VENDOR_HUAXING;
-			NVT_LOG("TP info: [Vendor]huaxing [IC]nt36672c\n");
+			if (NVT_DEBUG)
+				NVT_LOG("TP info: [Vendor]huaxing [IC]nt36672c\n");
+			else NVT_INFO("TP info: [Vendor]huaxing [IC]nt36672c\n");
 		} else if (strnstr(saved_command_line, "tianma", strlen(saved_command_line)) != NULL) {
 			touch_vendor_id = TP_VENDOR_TIANMA;
-			NVT_LOG("TP info: [Vendor]tianma [IC]nt36672c\n");
+			if (NVT_DEBUG)
+				NVT_LOG("TP info: [Vendor]tianma [IC]nt36672c\n");
+			else NVT_INFO("TP info: [Vendor]tianma [IC]nt36672c\n");
 		} else {
 			touch_vendor_id = TP_VENDOR_UNKNOWN;
 			NVT_ERR("Unknown Touch\n");

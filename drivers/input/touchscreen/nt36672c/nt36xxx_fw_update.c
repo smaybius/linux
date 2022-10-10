@@ -317,6 +317,7 @@ static int32_t update_firmware_request(char *filename)
 			NVT_ERR("firmware load failed, ret=%d\n", ret);
 			goto request_fail;
 		}
+		else NVT_INFO("firmware load successful. fw name: %s\n", filename);
 
 		// check FW need to write size
 		if (nvt_get_fw_need_write_size(fw_entry)) {
