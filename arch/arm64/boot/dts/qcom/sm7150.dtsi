@@ -1539,49 +1539,42 @@
 					compute-cb@1 {
 						compatible = "qcom,fastrpc-compute-cb";
 						reg = <1>;
-						iommus = <&apps_smmu 0x1401 0x20>;
+						iommus = <&apps_smmu 0x1421 0x0>,
+							 <&apps_smmu 0x1441 0x0>;
 					};
 
 					compute-cb@2 {
 						compatible = "qcom,fastrpc-compute-cb";
 						reg = <2>;
-						iommus = <&apps_smmu 0x1402 0x20>;
+						iommus = <&apps_smmu 0x1422 0x0>,
+							 <&apps_smmu 0x1442 0x0>;
 					};
 
 					compute-cb@3 {
 						compatible = "qcom,fastrpc-compute-cb";
 						reg = <3>;
-						iommus = <&apps_smmu 0x1403 0x20>;
+						iommus = <&apps_smmu 0x1423 0x0>,
+							 <&apps_smmu 0x1443 0x0>;
 					};
 
 					compute-cb@4 {
 						compatible = "qcom,fastrpc-compute-cb";
 						reg = <4>;
-						iommus = <&apps_smmu 0x1404 0x20>;
+						iommus = <&apps_smmu 0x1424 0x0>,
+							 <&apps_smmu 0x1444 0x0>;
 					};
 
 					compute-cb@5 {
 						compatible = "qcom,fastrpc-compute-cb";
 						reg = <5>;
-						iommus = <&apps_smmu 0x1405 0x20>;
+						iommus = <&apps_smmu 0x1425 0x0>,
+							 <&apps_smmu 0x1445 0x0>;
 					};
 
 					compute-cb@6 {
 						compatible = "qcom,fastrpc-compute-cb";
 						reg = <6>;
-						iommus = <&apps_smmu 0x1406 0x20>;
-					};
-
-					compute-cb@7 {
-						compatible = "qcom,fastrpc-compute-cb";
-						reg = <7>;
-						iommus = <&apps_smmu 0x1407 0x20>;
-					};
-
-					compute-cb@8 {
-						compatible = "qcom,fastrpc-compute-cb";
-						reg = <8>;
-						iommus = <&apps_smmu 0x1408 0x20>;
+						iommus = <&apps_smmu 0x1406 0x60>;
 					};
 
 					/* note: secure cb9 in downstream */
