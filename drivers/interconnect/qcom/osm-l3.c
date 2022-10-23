@@ -18,6 +18,7 @@
 #include "sc7280.h"
 #include "sc8180x.h"
 #include "sdm845.h"
+#include "sm7150.h"
 #include "sm8150.h"
 #include "sm8250.h"
 
@@ -291,6 +292,7 @@ static const struct of_device_id osm_l3_of_match[] = {
 	{ .compatible = "qcom,sc7180-osm-l3", .data = &osm_l3 },
 	{ .compatible = "qcom,sc7280-epss-l3", .data = &epss_l3_perf_state },
 	{ .compatible = "qcom,sdm845-osm-l3", .data = &osm_l3 },
+	{ .compatible = "qcom,sm7150-osm-l3", .data = &osm_l3 },
 	{ .compatible = "qcom,sm8150-osm-l3", .data = &osm_l3 },
 	{ .compatible = "qcom,sc8180x-osm-l3", .data = &osm_l3 },
 	{ .compatible = "qcom,sm8250-epss-l3", .data = &epss_l3_perf_state },
