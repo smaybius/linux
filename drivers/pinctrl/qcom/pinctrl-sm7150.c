@@ -389,13 +389,30 @@ enum sm7150_functions {
 	msm_mux_agera_pll,
 	msm_mux_aoss_cti,
 	msm_mux_atest_char,
+	msm_mux_atest_char0,
+	msm_mux_atest_char1,
+	msm_mux_atest_char2,
+	msm_mux_atest_char3,
 	msm_mux_atest_tsens,
 	msm_mux_atest_tsens2,
-	msm_mux_atest_usb,
+	msm_mux_atest_usb1,
+	msm_mux_atest_usb2,
+	msm_mux_atest_usb10,
+	msm_mux_atest_usb11,
+	msm_mux_atest_usb12,
+	msm_mux_atest_usb13,
+	msm_mux_atest_usb20,
+	msm_mux_atest_usb21,
+	msm_mux_atest_usb22,
+	msm_mux_atest_usb23,
 	msm_mux_cam_mclk,
 	msm_mux_cci_async,
 	msm_mux_cci_i2c,
-	msm_mux_cci_timer,
+	msm_mux_cci_timer0,
+	msm_mux_cci_timer1,
+	msm_mux_cci_timer2,
+	msm_mux_cci_timer3,
+	msm_mux_cci_timer4,
 	msm_mux_dbg_out,
 	msm_mux_ddr_bist,
 	msm_mux_ddr_pxi0,
@@ -458,7 +475,10 @@ enum sm7150_functions {
 	msm_mux_sdc4_cmd,
 	msm_mux_sec_mi2s,
 	msm_mux_ter_mi2s,
-	msm_mux_tgu,
+	msm_mux_tgu_ch0,
+	msm_mux_tgu_ch1,
+	msm_mux_tgu_ch2,
+	msm_mux_tgu_ch3,
 	msm_mux_tsif1_clk,
 	msm_mux_tsif1_data,
 	msm_mux_tsif1_en,
@@ -524,9 +544,24 @@ static const char * const aoss_cti_groups[] = {
 };
 
 static const char * const atest_char_groups[] = {
-	"gpio86", "gpio87", "gpio88", "gpio89", "gpio90",
+	"gpio86",
 };
 
+static const char * const atest_char0_groups[] = {
+	"gpio90",
+};
+
+static const char * const atest_char1_groups[] = {
+	"gpio89",
+};
+
+static const char * const atest_char2_groups[] = {
+	"gpio88",
+};
+
+static const char * const atest_char3_groups[] = {
+	"gpio87",
+};
 static const char * const atest_tsens_groups[] = {
 	"gpio29",
 };
@@ -535,9 +570,44 @@ static const char * const atest_tsens2_groups[] = {
 	"gpio7",
 };
 
-static const char * const atest_usb_groups[] = {
-	"gpio7", "gpio10", "gpio11", "gpio39", "gpio44",
-	"gpio51", "gpio52", "gpio53", "gpio54", "gpio55",
+static const char * const atest_usb1_groups[] = {
+	"gpio7",
+};
+
+static const char * const atest_usb2_groups[] = {
+	"gpio51",
+};
+
+static const char * const atest_usb10_groups[] = {
+	"gpio11",
+};
+
+static const char * const atest_usb11_groups[] = {
+	"gpio10",
+};
+
+static const char * const atest_usb12_groups[] = {
+	"gpio39",
+};
+
+static const char * const atest_usb13_groups[] = {
+	"gpio44",
+};
+
+static const char * const atest_usb20_groups[] = {
+	"gpio55",
+};
+
+static const char * const atest_usb21_groups[] = {
+	"gpio54",
+};
+
+static const char * const atest_usb22_groups[] = {
+	"gpio53",
+};
+
+static const char * const atest_usb23_groups[] = {
+	"gpio52",
 };
 
 static const char * const cam_mclk_groups[] = {
@@ -552,8 +622,24 @@ static const char * const cci_i2c_groups[] = {
 	"gpio17", "gpio18", "gpio19", "gpio20", "gpio27", "gpio28",
 };
 
-static const char * const cci_timer_groups[] = {
-	"gpio21", "gpio22", "gpio23", "gpio24", "gpio25",
+static const char * const cci_timer0_groups[] = {
+	"gpio21",
+};
+
+static const char * const cci_timer1_groups[] = {
+	"gpio22",
+};
+
+static const char * const cci_timer2_groups[] = {
+	"gpio23",
+};
+
+static const char * const cci_timer3_groups[] = {
+	"gpio24",
+};
+
+static const char * const cci_timer4_groups[] = {
+	"gpio25",
 };
 
 static const char * const dbg_out_groups[] = {
@@ -814,8 +900,20 @@ static const char * const ter_mi2s_groups[] = {
 	"gpio53", "gpio54", "gpio55", "gpio56",
 };
 
-static const char * const tgu_groups[] = {
-	"gpio62", "gpio63", "gpio64", "gpio65",
+static const char * const tgu_ch0_groups[] = {
+	"gpio63",
+};
+
+static const char * const tgu_ch1_groups[] = {
+	"gpio64",
+};
+
+static const char * const tgu_ch2_groups[] = {
+	"gpio65",
+};
+
+static const char * const tgu_ch3_groups[] = {
+	"gpio62",
 };
 
 static const char * const tsif1_clk_groups[] = {
@@ -935,13 +1033,30 @@ static const struct msm_function sm7150_functions[] = {
 	FUNCTION(agera_pll),
 	FUNCTION(aoss_cti),
 	FUNCTION(atest_char),
+	FUNCTION(atest_char0),
+	FUNCTION(atest_char1),
+	FUNCTION(atest_char2),
+	FUNCTION(atest_char3),
 	FUNCTION(atest_tsens),
 	FUNCTION(atest_tsens2),
-	FUNCTION(atest_usb),
+	FUNCTION(atest_usb1),
+	FUNCTION(atest_usb2),
+	FUNCTION(atest_usb10),
+	FUNCTION(atest_usb11),
+	FUNCTION(atest_usb12),
+	FUNCTION(atest_usb13),
+	FUNCTION(atest_usb20),
+	FUNCTION(atest_usb21),
+	FUNCTION(atest_usb22),
+	FUNCTION(atest_usb23),
 	FUNCTION(cam_mclk),
 	FUNCTION(cci_async),
 	FUNCTION(cci_i2c),
-	FUNCTION(cci_timer),
+	FUNCTION(cci_timer0),
+	FUNCTION(cci_timer1),
+	FUNCTION(cci_timer2),
+	FUNCTION(cci_timer3),
+	FUNCTION(cci_timer4),
 	FUNCTION(dbg_out),
 	FUNCTION(ddr_bist),
 	FUNCTION(ddr_pxi0),
@@ -1004,7 +1119,10 @@ static const struct msm_function sm7150_functions[] = {
 	FUNCTION(sdc4_cmd),
 	FUNCTION(sec_mi2s),
 	FUNCTION(ter_mi2s),
-	FUNCTION(tgu),
+	FUNCTION(tgu_ch0),
+	FUNCTION(tgu_ch1),
+	FUNCTION(tgu_ch2),
+	FUNCTION(tgu_ch3),
 	FUNCTION(tsif1_clk),
 	FUNCTION(tsif1_data),
 	FUNCTION(tsif1_en),
@@ -1048,11 +1166,11 @@ static const struct msm_pingroup sm7150_groups[] = {
 	[4] = PINGROUP(4, NORTH, _, qdss_cti, _, _, _, _, _, _, _),
 	[5] = PINGROUP(5, NORTH, _, qdss_cti, _, _, _, _, _, _, _),
 	[6] = PINGROUP(6, NORTH, qup11, _, phase_flag, ddr_pxi0, _, _, _, _, _),
-	[7] = PINGROUP(7, NORTH, qup11, ddr_bist, _, phase_flag, atest_tsens2, vsense_trigger, atest_usb, ddr_pxi0, _),
+	[7] = PINGROUP(7, NORTH, qup11, ddr_bist, _, phase_flag, atest_tsens2, vsense_trigger, atest_usb1, ddr_pxi0, _),
 	[8] = PINGROUP(8, NORTH, qup11, gp_pdm1, ddr_bist, _, _, _, _, _, _),
 	[9] = PINGROUP(9, NORTH, qup11, ddr_bist, _, _, _, _, _, _, _),
-	[10] = PINGROUP(10, NORTH, mdp_vsync, ddr_bist, _, phase_flag, wlan2_adc1, atest_usb, ddr_pxi2, _, _),
-	[11] = PINGROUP(11, NORTH, mdp_vsync, edp_lcd, _, phase_flag, wlan2_adc0, atest_usb, ddr_pxi2, _, _),
+	[10] = PINGROUP(10, NORTH, mdp_vsync, ddr_bist, _, phase_flag, wlan2_adc1, atest_usb11, ddr_pxi2, _, _),
+	[11] = PINGROUP(11, NORTH, mdp_vsync, edp_lcd, _, phase_flag, wlan2_adc0, atest_usb10, ddr_pxi2, _, _),
 	[12] = PINGROUP(12, SOUTH, mdp_vsync, m_voc, qup01, _, phase_flag, ddr_pxi3, _, _, _),
 	[13] = PINGROUP(13, SOUTH, cam_mclk, pll_bypassnl, _, phase_flag, qdss, ddr_pxi3, _, _, _),
 	[14] = PINGROUP(14, SOUTH, cam_mclk, pll_reset, _, phase_flag, qdss, _, _, _, _),
@@ -1062,11 +1180,11 @@ static const struct msm_pingroup sm7150_groups[] = {
 	[18] = PINGROUP(18, SOUTH, cci_i2c, qdss, _, _, _, _, _, _, _),
 	[19] = PINGROUP(19, SOUTH, cci_i2c, qdss, _, _, _, _, _, _, _),
 	[20] = PINGROUP(20, SOUTH, cci_i2c, qdss, _, _, _, _, _, _, _),
-	[21] = PINGROUP(21, SOUTH, cci_timer, gcc_gp2, _, qdss, _, _, _, _, _),
-	[22] = PINGROUP(22, SOUTH, cci_timer, gcc_gp3, _, qdss, _, _, _, _, _),
-	[23] = PINGROUP(23, SOUTH, cci_timer, qdss, _, _, _, _, _, _, _),
-	[24] = PINGROUP(24, SOUTH, cci_timer, cci_async, _, phase_flag, qdss, _, _, _, _),
-	[25] = PINGROUP(25, SOUTH, cci_timer, cci_async, _, phase_flag, qdss, _, _, _, _),
+	[21] = PINGROUP(21, SOUTH, cci_timer0, gcc_gp2, _, qdss, _, _, _, _, _),
+	[22] = PINGROUP(22, SOUTH, cci_timer1, gcc_gp3, _, qdss, _, _, _, _, _),
+	[23] = PINGROUP(23, SOUTH, cci_timer2, qdss, _, _, _, _, _, _, _),
+	[24] = PINGROUP(24, SOUTH, cci_timer3, cci_async, _, phase_flag, qdss, _, _, _, _),
+	[25] = PINGROUP(25, SOUTH, cci_timer4, cci_async, _, phase_flag, qdss, _, _, _, _),
 	[26] = PINGROUP(26, SOUTH, cci_async, jitter_bist, _, phase_flag, qdss, _, _, _, _),
 	[27] = PINGROUP(27, SOUTH, cci_i2c, pll_bist, _, phase_flag, qdss, _, _, _, _),
 	[28] = PINGROUP(28, SOUTH, cci_i2c, agera_pll, _, phase_flag, qdss, _, _, _, _),
@@ -1080,33 +1198,33 @@ static const struct msm_pingroup sm7150_groups[] = {
 	[36] = PINGROUP(36, SOUTH, _, phase_flag, qdss, _, _, _, _, _, _),
 	[37] = PINGROUP(37, SOUTH, qup01, gp_pdm0, _, phase_flag, qdss, _, _, _, _),
 	[38] = PINGROUP(38, SOUTH, qup03, _, phase_flag, _, _, _, _, _, _),
-	[39] = PINGROUP(39, SOUTH, qup03, _, phase_flag, _, wlan1_adc0, atest_usb, ddr_pxi1, _, _),
+	[39] = PINGROUP(39, SOUTH, qup03, _, phase_flag, _, wlan1_adc0, atest_usb12, ddr_pxi1, _, _),
 	[40] = PINGROUP(40, SOUTH, qup03, _, _, _, _, _, _, _, _),
 	[41] = PINGROUP(41, SOUTH, qup03, _, _, _, _, _, _, _, _),
 	[42] = PINGROUP(42, NORTH, qup12, _, _, _, _, _, _, _, _),
 	[43] = PINGROUP(43, NORTH, qup12, _, phase_flag, _, _, _, _, _, _),
-	[44] = PINGROUP(44, NORTH, qup12, _, phase_flag, qdss_cti, _, wlan1_adc1, atest_usb, ddr_pxi1, _),
+	[44] = PINGROUP(44, NORTH, qup12, _, phase_flag, qdss_cti, _, wlan1_adc1, atest_usb13, ddr_pxi1, _),
 	[45] = PINGROUP(45, NORTH, qup12, qdss_cti, _, _, _, _, _, _, _),
 	[46] = PINGROUP(46, NORTH, qup13, _, _, _, _, _, _, _, _),
 	[47] = PINGROUP(47, NORTH, qup13, _, _, _, _, _, _, _, _),
 	[48] = PINGROUP(48, WEST, gcc_gp1, _, _, _, _, _, _, _, _),
 	[49] = PINGROUP(49, WEST, pri_mi2s, qup00, wsa_clk, _, _, _, _, _, _),
 	[50] = PINGROUP(50, WEST, pri_mi2s_ws, qup00, wsa_data, gp_pdm1, _, _, _, _, _),
-	[51] = PINGROUP(51, WEST, pri_mi2s, qup00, atest_usb, _, _, _, _, _, _),
-	[52] = PINGROUP(52, WEST, pri_mi2s, qup00, atest_usb, _, _, _, _, _, _),
-	[53] = PINGROUP(53, WEST, ter_mi2s, qup04, qdss, atest_usb, _, _, _, _, _),
-	[54] = PINGROUP(54, WEST, ter_mi2s, qup04, qdss, atest_usb, _, _, _, _, _),
-	[55] = PINGROUP(55, WEST, ter_mi2s, qup04, qdss, atest_usb, _, _, _, _, _),
+	[51] = PINGROUP(51, WEST, pri_mi2s, qup00, atest_usb2, _, _, _, _, _, _),
+	[52] = PINGROUP(52, WEST, pri_mi2s, qup00, atest_usb23, _, _, _, _, _, _),
+	[53] = PINGROUP(53, WEST, ter_mi2s, qup04, qdss, atest_usb22, _, _, _, _, _),
+	[54] = PINGROUP(54, WEST, ter_mi2s, qup04, qdss, atest_usb21, _, _, _, _, _),
+	[55] = PINGROUP(55, WEST, ter_mi2s, qup04, qdss, atest_usb20, _, _, _, _, _),
 	[56] = PINGROUP(56, WEST, ter_mi2s, qup04, gcc_gp1, _, phase_flag, qdss, _, _, _),
 	[57] = PINGROUP(57, WEST, sec_mi2s, qup00, gp_pdm2, _, phase_flag, qdss, _, _, _),
 	[58] = PINGROUP(58, WEST, qua_mi2s, qup00, _, _, _, _, _, _, _),
 	[59] = PINGROUP(59, NORTH, qup10, _, _, _, _, _, _, _, _),
 	[60] = PINGROUP(60, NORTH, qup10, tsif1_error, _, phase_flag, _, _, _, _, _),
 	[61] = PINGROUP(61, NORTH, qup10, tsif1_sync, _, phase_flag, _, _, _, _, _),
-	[62] = PINGROUP(62, NORTH, qup10, tsif1_clk, tgu, _, phase_flag, _, _, _, _),
-	[63] = PINGROUP(63, NORTH, tsif1_en, mdp_vsync0, qup10, mdp_vsync1, mdp_vsync2, mdp_vsync3, tgu, qdss_cti, _),
-	[64] = PINGROUP(64, NORTH, tsif1_data, sdc4_cmd, qup10, tgu, _, _, _, _, _),
-	[65] = PINGROUP(65, NORTH, tsif2_error, sdc43, qup10, vfr_1, tgu, _, _, _, _),
+	[62] = PINGROUP(62, NORTH, qup10, tsif1_clk, tgu_ch3, _, phase_flag, _, _, _, _),
+	[63] = PINGROUP(63, NORTH, tsif1_en, mdp_vsync0, qup10, mdp_vsync1, mdp_vsync2, mdp_vsync3, tgu_ch0, qdss_cti, _),
+	[64] = PINGROUP(64, NORTH, tsif1_data, sdc4_cmd, qup10, tgu_ch1, _, _, _, _, _),
+	[65] = PINGROUP(65, NORTH, tsif2_error, sdc43, qup10, vfr_1, tgu_ch2, _, _, _, _),
 	[66] = PINGROUP(66, NORTH, tsif2_clk, sdc4_clk, pci_e, _, _, _, _, _, _),
 	[67] = PINGROUP(67, NORTH, tsif2_en, sdc42, pci_e, _, _, _, _, _, _),
 	[68] = PINGROUP(68, NORTH, tsif2_data, sdc41, pci_e, gp_pdm0, _, _, _, _, _),
@@ -1128,10 +1246,10 @@ static const struct msm_pingroup sm7150_groups[] = {
 	[84] = PINGROUP(84, WEST, _, nav_pps_in, nav_pps_out, gps_tx, _, _, _, _, _),
 	[85] = PINGROUP(85, WEST, uim_batt, edp_hot, aoss_cti, _, _, _, _, _, _),
 	[86] = PINGROUP(86, NORTH, qdss, atest_char, _, _, _, _, _, _, _),
-	[87] = PINGROUP(87, NORTH, adsp_ext, qdss, atest_char, _, _, _, _, _, _),
-	[88] = PINGROUP(88, NORTH, qdss, atest_char, _, _, _, _, _, _, _),
-	[89] = PINGROUP(89, NORTH, qdss, atest_char, _, _, _, _, _, _, _),
-	[90] = PINGROUP(90, NORTH, qdss, atest_char, _, _, _, _, _, _, _),
+	[87] = PINGROUP(87, NORTH, adsp_ext, qdss, atest_char3, _, _, _, _, _, _),
+	[88] = PINGROUP(88, NORTH, qdss, atest_char2, _, _, _, _, _, _, _),
+	[89] = PINGROUP(89, NORTH, qdss, atest_char1, _, _, _, _, _, _, _),
+	[90] = PINGROUP(90, NORTH, qdss, atest_char0, _, _, _, _, _, _, _),
 	[91] = PINGROUP(91, NORTH, qdss, _, _, _, _, _, _, _, _),
 	[92] = PINGROUP(92, NORTH, _, _, qup15, _, _, _, _, _, _),
 	[93] = PINGROUP(93, NORTH, qdss, _, _, _, _, _, _, _, _),
