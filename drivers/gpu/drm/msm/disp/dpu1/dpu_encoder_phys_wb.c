@@ -208,6 +208,7 @@ static void dpu_encoder_phys_wb_setup_cdp(struct dpu_encoder_phys *phys_enc)
 
 		intf_cfg.intf = DPU_NONE;
 		intf_cfg.wb = hw_wb->idx;
+		intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
 
 		if (mode_3d && hw_pp && hw_pp->merge_3d)
 			intf_cfg.merge_3d = hw_pp->merge_3d->idx;
@@ -229,6 +230,7 @@ static void dpu_encoder_phys_wb_setup_cdp(struct dpu_encoder_phys *phys_enc)
 		intf_cfg.wb = hw_wb->idx;
 		intf_cfg.mode_3d =
 			dpu_encoder_helper_get_3d_blend_mode(phys_enc);
+		intf_cfg.dsc = dpu_encoder_helper_get_dsc(phys_enc);
 		phys_enc->hw_ctl->ops.setup_intf_cfg(phys_enc->hw_ctl, &intf_cfg);
 	}
 }
