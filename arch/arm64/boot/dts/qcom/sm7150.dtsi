@@ -2431,7 +2431,7 @@
 		};
 
 		dispcc: clock-controller@af00000 {
-			compatible = "qcom,dispcc-sm7150";
+			compatible = "qcom,sm7150-dispcc";
 			reg = <0 0x0af00000 0 0x200000>;
 			clocks = <&rpmhcc RPMH_CXO_CLK>,
 				 <&gcc GCC_DISP_GPLL0_CLK_SRC>,
