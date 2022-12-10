@@ -156,14 +156,9 @@
 		vdd-s4-supply = <&vph_pwr>;
 		vdd-s5-supply = <&vph_pwr>;
 
-		//vdd-l11-l12-l13-supply = <&vreg_s5a_2p0>;
-		//vdd-l10-l14-l15-supply = <&vreg_s5a_2p0>;
 		vdd-l1-supply = <&vreg_s8c_1p2>;
-		//vdd-l2-l3-supply = <&vreg_s4a_1p1>;
 		vdd-l5-l16-l17-l18-l19-supply = <&vreg_bob>;
 		vdd-l6-supply = <&vreg_s8c_1p2>;
-		//vdd-l9-supply = <&vreg_s3a_0p8>;
-		//vdd-l4-l7-l8-supply = <&vreg_s4a_1p1>;
 
 		/*
 		 * S1, S4, S5 are unused.
@@ -284,7 +279,6 @@
 		vdd-s7-supply = <&vph_pwr>;
 		vdd-s8-supply = <&vph_pwr>;
 
-		//vdd-l1-l8-supply = <&vreg_s5a_2p0>;
 		vdd-l2-l3-supply = <&vreg_s8c_1p2>;
 		vdd-l4-l5-l6-supply = <&vreg_bob>;
 		vdd-l7-l11-supply = <&vreg_bob>;
@@ -314,10 +308,12 @@
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
+		// always-on not supported
 		vreg_s8c_1p2: smps8 {
 			regulator-min-microvolt = <1200000>;
 			regulator-max-microvolt = <1730000>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+			//regulator-always-on;
 		};
 
 		vreg_l1c_1p8: ldo1 {
