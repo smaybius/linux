@@ -435,7 +435,7 @@
 		ti,imon-slot-no = <0>;
 	};
 
-	/* ti,bq2597x (charger) @ 65 */
+	/* ti,bq25968 (charger) @ 65 */
 };
 
 &ipa {
