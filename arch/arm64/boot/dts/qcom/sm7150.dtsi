@@ -1993,9 +1993,10 @@
 			clocks = <&rpmhcc RPMH_CXO_CLK>;
 			clock-names = "xo";
 
-			power-domains = <&rpmhpd 7>,
-					<&rpmhpd 0>;
-			power-domain-names = "cx", "mss";
+			power-domains = <&rpmhpd SM7150_CX>,
+					<&rpmhpd SM7150_MX>,
+					<&rpmhpd SM7150_MSS>;
+			power-domain-names = "cx", "mx", "mss";
 
 			memory-region = <&mpss_mem>;
 
