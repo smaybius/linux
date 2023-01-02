@@ -586,30 +586,28 @@
 		};
 	};
 
-	qup_uart3_sleep: qup-uart3-sleep {
-		pinmux {
-			pins = "gpio38", "gpio39",
-			       "gpio40", "gpio41";
-			function = "gpio";
-		};
-
+	qup_uart3_sleep: qup-uart3-sleep-state {
 		pinconf-cts {
 			pins = "gpio38";
+			function = "gpio";
 			bias-pull-down;
 		};
 
 		pinconf-rts {
 			pins = "gpio39";
+			function = "gpio";
 			bias-pull-down;
 		};
 
 		pinconf-tx {
 			pins = "gpio40";
+			function = "gpio";
 			bias-pull-up;
 		};
 
 		pinconf-rx {
 			pins = "gpio41";
+			function = "gpio";
 			bias-pull-up;
 		};
 	};
