@@ -424,8 +424,9 @@
 		compatible = "fcs,fsa4480";
 		reg = <0x43>;
 
-		pinctrl-names = "default";
-		pinctrl-0 = <&fsa_usbc_ana_en>;
+		interrupts-extended = <&tlmm 42 IRQ_TYPE_LEVEL_LOW>;
+
+		vcc-supply = <&vreg_bob>;
 
 		mode-switch;
 		orientation-switch;
@@ -571,20 +572,6 @@
 
 &tlmm {
 	gpio-reserved-ranges = <59 4>;
-
-	fsa_usbc_ana_en: fsa_usbc_ana_en {
-		mux {
-			pins = "gpio42";
-			function = "gpio";
-		};
-
-		config {
-			pins = "gpio42";
-			drive-strength = <2>;
-			bias-disable;
-			output-low;
-		};
-	};
 
 	qup_uart3_sleep: qup-uart3-sleep-state {
 		pinconf-cts {
