@@ -453,54 +453,56 @@
 &tlmm {
 	gpio-reserved-ranges = <0 4>, <59 4>;
 
-	sdc2_on: sdc2-on {
-		pinconf-clk {
+	sdc2_on: sdc2-on-state {
+		clk-pins {
 			pins = "sdc2_clk";
 			bias-disable;
 			drive-strength = <16>;
 		};
 
-		pinconf-cmd {
+		cmd-pins {
 			pins = "sdc2_cmd";
 			bias-pull-up;
 			drive-strength = <10>;
 		};
 
-		pinconf-data {
+		data-pins {
 			pins = "sdc2_data";
 			bias-pull-up;
 			drive-strength = <10>;
 		};
 
-		pinconf-sd-cd {
+		sd-cd-pins {
 			pins = "gpio69";
+			function = "gpio";
 			bias-pull-up;
 			drive-strength = <2>;
 		};
 	};
 
-	sdc2_off: sdc2-off {
-		pinconf-clk {
+	sdc2_off: sdc1-off-state {
+		clk-pins {
 			pins = "sdc2_clk";
 			bias-disable;
 			drive-strength = <2>;
 		};
 
-		pinconf-cmd {
+		cmd-pins {
 			pins = "sdc2_cmd";
 			bias-pull-up;
 			drive-strength = <2>;
 		};
 
-		pinconf-data {
+		data-pins {
 			pins = "sdc2_data";
 			bias-pull-up;
 			drive-strength = <2>;
 		};
 
-		pinconf-sd-cd {
+		sd-cd-pins {
 			pins = "gpio69";
-			bias-disable;
+			function = "gpio";
+			bias-pull-up;
 			drive-strength = <2>;
 		};
 	};
