@@ -149,17 +149,33 @@
 		vdd-s5-supply = <&vph_pwr>;
 
 		vdd-l1-supply = <&vreg_s8c_1p35>;
+		vdd-l2-l3-supply = <&vreg_s4a_1p1>;
+		vdd-l4-l7-l8-supply = <&vreg_s4a_1p1>;
 		vdd-l5-l16-l17-l18-l19-supply = <&vreg_bob>;
 		vdd-l6-supply = <&vreg_s8c_1p35>;
+		vdd-l10-l14-l15-supply = <&vreg_s5a_2p0>;
+		vdd-l11-l12-l13-supply = <&vreg_s5a_2p0>;
 
 		/*
-		 * S1, S4, S5 are unused.
-		 * S2-S3 and L7-L8 are ARCs:
+		 * S1 are unused.
+		 * S2-S3, L7-L8 are ARCs:
 		 * S2 - gfx.lvl,
 		 * S3 - mx.lvl,
 		 * L7 - lmx.lvl,
 		 * L8 - lcx.lvl.
 		 */
+
+		vreg_s4a_1p1: smps4 {
+			regulator-min-microvolt = <824000>;
+			regulator-max-microvolt = <1120000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+		vreg_s5a_2p0: smps5 {
+			regulator-min-microvolt = <1744000>;
+			regulator-max-microvolt = <2040000>;
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
 
 		vreg_l1a_1p2: ldo1 {
 			regulator-min-microvolt = <1096000>;
@@ -543,81 +559,81 @@
 &tlmm {
 	gpio-reserved-ranges = <0 4>, <59 4>;
 
-	qup_uart3_sleep: qup-uart3-sleep {
-		pinmux {
-			pins = "gpio38", "gpio39",
-			       "gpio40", "gpio41";
-			function = "gpio";
-		};
-
+	qup_uart3_sleep: qup-uart3-sleep-state {
 		pinconf-cts {
 			pins = "gpio38";
+			function = "gpio";
 			bias-pull-down;
 		};
 
 		pinconf-rts {
-			 pins = "gpio39";
-			 bias-pull-down;
+			pins = "gpio39";
+			function = "gpio";
+			bias-pull-down;
 		};
 
 		pinconf-tx {
 			pins = "gpio40";
+			function = "gpio";
 			bias-pull-up;
 		};
 
 		pinconf-rx {
 			pins = "gpio41";
+			function = "gpio";
 			bias-pull-up;
 		};
 	};
 
-	sdc2_on: sdc2-on {
-		pinconf-clk {
+	sdc2_on: sdc2-on-state {
+		clk-pins {
 			pins = "sdc2_clk";
 			bias-disable;
 			drive-strength = <16>;
 		};
 
-		pinconf-cmd {
+		cmd-pins {
 			pins = "sdc2_cmd";
 			bias-pull-up;
 			drive-strength = <10>;
 		};
 
-		pinconf-data {
+		data-pins {
 			pins = "sdc2_data";
 			bias-pull-up;
 			drive-strength = <10>;
 		};
 
-		pinconf-sd-cd {
+		sd-cd-pins {
 			pins = "gpio69";
+			function = "gpio";
 			bias-pull-up;
 			drive-strength = <2>;
 		};
 	};
 
-	sdc2_off: sdc2-off {
-		pinconf-clk {
+	sdc2_off: sdc1-off-state {
+		clk-pins {
 			pins = "sdc2_clk";
 			bias-disable;
 			drive-strength = <2>;
 		};
 
-		pinconf-cmd {
+		cmd-pins {
 			pins = "sdc2_cmd";
 			bias-pull-up;
 			drive-strength = <2>;
 		};
 
-		pinconf-data {
+		data-pins {
 			pins = "sdc2_data";
 			bias-pull-up;
 			drive-strength = <2>;
 		};
 
-		pinconf-sd-cd {
+		sd-cd-pins {
 			pins = "gpio69";
+			function = "gpio";
 			bias-pull-up;
 			drive-strength = <2>;
 		};
