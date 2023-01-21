@@ -355,10 +355,10 @@
 			no-map;
 		};
 
-		/*sec_apps_mem: memory@85fff000 {
+		sec_apps_mem: memory@85fff000 {
 			reg = <0x0 0x85fff000 0x0 0x1000>;
 			no-map;
-		};*/ //FIXME: Not needed?
+		};
 
 		smem_mem: memory@86000000 {
 			reg = <0x0 0x86000000 0x0 0x200000>;
