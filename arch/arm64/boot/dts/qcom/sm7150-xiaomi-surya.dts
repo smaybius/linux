@@ -571,12 +571,17 @@
 
 &spi0 {
 	status = "okay";
+	clock-frequency = <50000000>;
 
 	touchscreen@0 {
 		compatible = "novatek,NVT-ts-spi";
 		reg = <0>;
 
 		spi-max-frequency = <8000000>;
+
+		touch_vddio-supply = <&vreg_l18a_2p8>;
+
+		novatek,reset-gpio = <&tlmm 8 GPIO_ACTIVE_HIGH>;
 		novatek,irq-gpio = <&tlmm 9 0x2001>;
 
 		/* 672C */
