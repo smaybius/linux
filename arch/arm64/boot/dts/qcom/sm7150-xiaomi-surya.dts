@@ -106,6 +106,17 @@
 		regulator-min-microvolt = <3700000>;
 		regulator-max-microvolt = <3700000>;
 	};
+
+	// S3A is really mx.lvl but it's there for supply map completeness sake.
+	vreg_s3a_0p8: smpa3-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "vreg_s3a_0p8";
+
+		regulator-min-microvolt = <800000>;
+		regulator-max-microvolt = <800000>;
+		regulator-always-on;
+		vin-supply = <&vph_pwr>;
+	};
 };
 
 &apps_rsc {
@@ -124,6 +135,7 @@
 		vdd-l4-l7-l8-supply = <&vreg_s4a_1p1>;
 		vdd-l5-l16-l17-l18-l19-supply = <&vreg_bob>;
 		vdd-l6-supply = <&vreg_s8c_1p35>;
+		vdd-l9-supply = <&vreg_s3a_0p8>;
 		vdd-l10-l14-l15-supply = <&vreg_s5a_2p0>;
 		vdd-l11-l12-l13-supply = <&vreg_s5a_2p0>;
 
@@ -264,6 +276,11 @@
 		vdd-s7-supply = <&vph_pwr>;
 		vdd-s8-supply = <&vph_pwr>;
 
+		/*
+		 * There should be:
+		 * vdd-l1-l8-supply = <&vreg_s5a_2p0>;
+		 * But pm7150l doesn't have access to S5A.
+		 */
 		vdd-l2-l3-supply = <&vreg_s8c_1p35>;
 		vdd-l4-l5-l6-supply = <&vreg_bob>;
 		vdd-l7-l11-supply = <&vreg_bob>;
