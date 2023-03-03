@@ -8,7 +8,7 @@
 #include <linux/platform_device.h>
 #include <linux/regmap.h>
 
-#include <dt-bindings/clock/qcom,dispcc-sm7150.h>
+#include <dt-bindings/clock/qcom,sm7150-dispcc.h>
 
 #include "clk-alpha-pll.h"
 #include "clk-branch.h"
@@ -865,7 +865,7 @@ static const struct qcom_cc_desc disp_cc_sm7150_desc = {
 };
 
 static const struct of_device_id disp_cc_sm7150_match_table[] = {
-	{ .compatible = "qcom,sm7150-dispcc" },
+	{ .compatible = "qcom,dispcc-sm7150" },
 	{ }
 };
 MODULE_DEVICE_TABLE(of, disp_cc_sm7150_match_table);
