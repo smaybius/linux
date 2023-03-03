@@ -12,7 +12,7 @@
 #include <dt-bindings/clock/qcom,rpmh.h>
 #include <dt-bindings/clock/qcom,sm7150-gcc.h>
 #include <dt-bindings/clock/qcom,gpucc-sc7180.h>
-#include <dt-bindings/clock/qcom,dispcc-sm7150.h>
+#include <dt-bindings/clock/qcom,sm7150-dispcc.h>
 #include <dt-bindings/dma/qcom-gpi.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
@@ -3303,7 +3303,7 @@
 		};
 
 		dispcc: clock-controller@af00000 {
-			compatible = "qcom,sm7150-dispcc";
+			compatible = "qcom,dispcc-sm7150";
 			reg = <0 0x0af00000 0 0x200000>;
 			clocks = <&rpmhcc RPMH_CXO_CLK>,
 				 <&gcc GCC_DISP_GPLL0_CLK_SRC>,
