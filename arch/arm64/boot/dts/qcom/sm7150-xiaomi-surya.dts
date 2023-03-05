@@ -631,25 +631,25 @@
 	gpio-reserved-ranges = <59 4>;
 
 	qup_uart3_sleep: qup-uart3-sleep-state {
-		pinconf-cts {
+		cts-pins {
 			pins = "gpio38";
 			function = "gpio";
 			bias-pull-down;
 		};
 
-		pinconf-rts {
+		rts-pins {
 			pins = "gpio39";
 			function = "gpio";
 			bias-pull-down;
 		};
 
-		pinconf-tx {
+		tx-pins {
 			pins = "gpio40";
 			function = "gpio";
 			bias-pull-up;
 		};
 
-		pinconf-rx {
+		rx-pins {
 			pins = "gpio41";
 			function = "gpio";
 			bias-pull-up;
