@@ -28,6 +28,7 @@
 	aliases {
 		bluetooth0 = &bluetooth;
 		hsuart0 = &uart3;
+		serial0 = &uart8;
 		wifi0 = &wifi;
 	};
 
@@ -37,6 +38,9 @@
 		// This is necessary for sdhc to work.
 		bootargs = "sdhci.debug_quirks=0x40";
 		ranges;
+
+		stdout-path = "serial0:115200n8";
+
 		framebuffer@9c000000 {
 			compatible = "simple-framebuffer";
 			reg = <0x0 0x9c000000 0x0 (1080 * 2400 * 4)>;
@@ -559,6 +563,16 @@
 	status = "okay";
 };
 
+&qup_uart8_tx {
+	drive-strength = <2>;
+	bias-disable;
+};
+
+&qup_uart8_rx {
+	drive-strength = <2>;
+	bias-pull-up;
+};
+
 &remoteproc_adsp {
 	status = "okay";
 	firmware-name = "qcom/sm7150/surya/adsp.mbn";
@@ -716,6 +730,10 @@
 		vddch0-supply = <&vreg_l10c_3p3>;
 		max-speed = <3200000>;
 	};
+};
+
+&uart8 {
+	status = "okay";
 };
 
 &ufs_mem_hc {
