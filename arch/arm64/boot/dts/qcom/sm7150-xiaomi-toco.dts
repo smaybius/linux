@@ -17,7 +17,6 @@
 / {
 	model = "Xiaomi Mi Note 10 Lite";
 	compatible = "xiaomi,toco", "qcom,sm7150";
-	chassis-type = "handset";
 
 	qcom,board-id = <44 0>;
 
