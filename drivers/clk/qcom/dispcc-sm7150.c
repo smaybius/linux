@@ -1013,7 +1013,7 @@ static const struct qcom_cc_desc disp_cc_sm7150_desc = {
 };
 
 static const struct of_device_id disp_cc_sm7150_match_table[] = {
-	{ .compatible = "qcom,dispcc-sm7150" },
+	{ .compatible = "qcom,sm7150-dispcc" },
 	{ }
 };
 MODULE_DEVICE_TABLE(of, disp_cc_sm7150_match_table);
