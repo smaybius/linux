@@ -168,7 +168,7 @@ static struct clk_alpha_pll disp_cc_pll0 = {
 			.name = "disp_cc_pll0",
 			.parent_names = (const char *[]){ "bi_tcxo" },
 			.num_parents = 1,
-			.ops = &clk_fabia_pll_ops,
+			.ops = &clk_alpha_pll_fabia_ops,
 		},
 	},
 };
