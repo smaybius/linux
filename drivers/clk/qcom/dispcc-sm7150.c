@@ -31,8 +31,6 @@
 #include "common.h"
 #include "reset.h"
 
-#define DISP_CC_MISC_CMD	0x8000
-
 enum {
 	DT_BI_TCXO,
 	DT_BI_TCXO_AO,
@@ -1004,27 +1002,17 @@ MODULE_DEVICE_TABLE(of, disp_cc_sm7150_match_table);
 static int disp_cc_sm7150_probe(struct platform_device *pdev)
 {
 	struct regmap *regmap;
-	int ret;
 
 	regmap = qcom_cc_map(pdev, &disp_cc_sm7150_desc);
-	if (IS_ERR(regmap)) {
-		pr_err("Failed to map the disp_cc registers\n");
+	if (IS_ERR(regmap))
 		return PTR_ERR(regmap);
-	}
 
 	clk_fabia_pll_configure(&disp_cc_pll0, regmap, &disp_cc_pll0_config);
 
 	/* Enable clock gating for DSI and MDP clocks */
-	regmap_update_bits(regmap, DISP_CC_MISC_CMD, 0x7f0, 0x7f0);
+	regmap_update_bits(regmap, 0x8000, 0x7f0, 0x7f0);
 
-	ret = qcom_cc_really_probe(pdev, &disp_cc_sm7150_desc, regmap);
-	if (ret) {
-		dev_err(&pdev->dev, "Failed to register Display CC clocks\n");
-		return ret;
-	}
-
-	dev_info(&pdev->dev, "Registered Display CC clocks\n");
-	return ret;
+	return qcom_cc_really_probe(pdev, &disp_cc_sm7150_desc, regmap);
 }
 
 static struct platform_driver disp_cc_sm7150_driver = {
