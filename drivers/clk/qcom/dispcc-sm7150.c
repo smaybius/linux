@@ -22,7 +22,6 @@
 
 enum {
 	DT_BI_TCXO,
-	DT_BI_TCXO_AO,
 	DT_CHIP_SLEEP_CLK,
 	DT_GCC_DISP_GPLL0_CLK,
 
@@ -107,10 +106,6 @@ static const struct parent_map dispcc_parent_map_2[] = {
 
 static const struct clk_parent_data dispcc_parent_data_2[] = {
 	{ .index = DT_BI_TCXO },
-};
-
-static const struct clk_parent_data dispcc_parent_data_ao[] = {
-	{ .index = DT_BI_TCXO_AO },
 };
 
 static const struct parent_map dispcc_parent_map_3[] = {
