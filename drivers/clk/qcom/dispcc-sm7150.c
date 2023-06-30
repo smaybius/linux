@@ -151,7 +151,7 @@ static struct pll_vco fabia_vco[] = {
 /* 860MHz configuration */
 static const struct alpha_pll_config disp_cc_pll0_config = {
 	.l = 0x2c,
-	.frac = 0xcaaa,
+	.alpha = 0xcaaa,
 	.test_ctl_val = 0x40000000,
 };
 
