@@ -5,22 +5,16 @@
  * Copyright (c) 2023, Danila Tikhonov <danila@jiaxyga.com>
  */
 
-#include <linux/kernel.h>
-#include <linux/err.h>
+#include <linux/clk-provider.h>
 #include <linux/module.h>
 #include <linux/platform_device.h>
-#include <linux/of.h>
-#include <linux/of_device.h>
-#include <linux/clk-provider.h>
 #include <linux/regmap.h>
-#include <linux/reset-controller.h>
 
 #include <dt-bindings/clock/qcom,sm7150-dispcc.h>
 
 #include "clk-alpha-pll.h"
 #include "clk-branch.h"
 #include "clk-rcg.h"
-#include "clk-regmap.h"
 #include "clk-regmap-divider.h"
 #include "common.h"
 #include "gdsc.h"
@@ -181,7 +175,7 @@ static struct clk_rcg2 dispcc_mdss_ahb_clk_src = {
 		.parent_data = dispcc_parent_data_5,
 		.num_parents = ARRAY_SIZE(dispcc_parent_data_5),
 		.flags = CLK_SET_RATE_PARENT,
-		.ops = &clk_rcg2_ops,
+		.ops = &clk_rcg2_shared_ops,
 	},
 };
 
