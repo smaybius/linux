@@ -442,20 +442,6 @@ static struct clk_rcg2 dispcc_sleep_clk_src = {
 	},
 };
 
-static struct clk_rcg2 dispcc_xo_clk_src = {
-	.cmd_rcgr = 0x6044,
-	.mnd_width = 0,
-	.hid_width = 5,
-	.parent_map = dispcc_parent_map_2,
-	.freq_tbl = ftbl_dispcc_mdss_byte0_clk_src,
-	.clkr.hw.init = &(struct clk_init_data){
-		.name = "dispcc_xo_clk_src",
-		.parent_data = dispcc_parent_data_ao,
-		.num_parents = ARRAY_SIZE(dispcc_parent_data_ao),
-		.ops = &clk_rcg2_ops,
-	},
-};
-
 static struct clk_branch dispcc_mdss_ahb_clk = {
 	.halt_reg = 0x2080,
 	.halt_check = BRANCH_HALT,
@@ -903,24 +889,6 @@ static struct clk_branch dispcc_sleep_clk = {
 	},
 };
 
-static struct clk_branch dispcc_xo_clk = {
-	.halt_reg = 0x605c,
-	.halt_check = BRANCH_HALT,
-	.clkr = {
-		.enable_reg = 0x605c,
-		.enable_mask = BIT(0),
-		.hw.init = &(struct clk_init_data){
-			.name = "dispcc_xo_clk",
-			.parent_names = (const char *[]){
-				"dispcc_xo_clk_src",
-			},
-			.num_parents = 1,
-			.flags = CLK_SET_RATE_PARENT | CLK_IS_CRITICAL,
-			.ops = &clk_branch2_ops,
-		},
-	},
-};
-
 static struct gdsc dispcc_mdss_gdsc = {
 	.gdscr = 0x3000,
 	.en_rest_wait_val = 0x2,
@@ -976,8 +944,6 @@ static struct clk_regmap *dispcc_sm7150_clocks[] = {
 	[DISPCC_PLL0] = &dispcc_pll0.clkr,
 	[DISPCC_SLEEP_CLK] = &dispcc_sleep_clk.clkr,
 	[DISPCC_SLEEP_CLK_SRC] = &dispcc_sleep_clk_src.clkr,
-	[DISPCC_XO_CLK] = &dispcc_xo_clk.clkr,
-	[DISPCC_XO_CLK_SRC] = &dispcc_xo_clk_src.clkr,
 };
 
 static struct gdsc *dispcc_sm7150_gdscs[] = {
@@ -1018,6 +984,8 @@ static int dispcc_sm7150_probe(struct platform_device *pdev)
 
 	/* Enable clock gating for DSI and MDP clocks */
 	regmap_update_bits(regmap, 0x8000, 0x7f0, 0x7f0);
+	/* Keep DISP_CC_XO_CLK always-ON */
+	regmap_update_bits(regmap, 0x605c, BIT(0), BIT(0));
 
 	return qcom_cc_really_probe(pdev, &dispcc_sm7150_desc, regmap);
 }
