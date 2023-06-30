@@ -1027,4 +1027,3 @@ module_platform_driver(disp_cc_sm7150_driver);
 
 MODULE_DESCRIPTION("QTI DISP_CC sm7150 Driver");
 MODULE_LICENSE("GPL v2");
-MODULE_ALIAS("platform:disp_cc-sm7150");
