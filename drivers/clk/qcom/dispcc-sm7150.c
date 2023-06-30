@@ -23,7 +23,7 @@
 #include <linux/regmap.h>
 #include <linux/reset-controller.h>
 
-#include <dt-bindings/clock/qcom,dispcc-sdmmagpie.h>
+#include <dt-bindings/clock/qcom,dispcc-sm7150.h>
 
 #include "clk-alpha-pll.h"
 #include "clk-branch.h"
@@ -32,7 +32,7 @@
 #include "clk-regmap-divider.h"
 #include "common.h"
 #include "reset.h"
-#include "vdd-level-sdmmagpie.h"
+#include "vdd-level-sm7150.h"
 
 #define F(f, s, h, m, n) { (f), (s), (2 * (h) - 1), (m), (n) }
 
@@ -1039,7 +1039,7 @@ static struct clk_branch disp_cc_xo_clk = {
 	},
 };
 
-static struct clk_regmap *disp_cc_sdmmagpie_clocks[] = {
+static struct clk_regmap *disp_cc_sm7150_clocks[] = {
 	[DISP_CC_MDSS_AHB_CLK] = &disp_cc_mdss_ahb_clk.clkr,
 	[DISP_CC_MDSS_AHB_CLK_SRC] = &disp_cc_mdss_ahb_clk_src.clkr,
 	[DISP_CC_MDSS_BYTE0_CLK] = &disp_cc_mdss_byte0_clk.clkr,
@@ -1086,7 +1086,7 @@ static struct clk_regmap *disp_cc_sdmmagpie_clocks[] = {
 	[DISP_CC_XO_CLK_SRC] = &disp_cc_xo_clk_src.clkr,
 };
 
-static const struct regmap_config disp_cc_sdmmagpie_regmap_config = {
+static const struct regmap_config disp_cc_sm7150_regmap_config = {
 	.reg_bits	= 32,
 	.reg_stride	= 4,
 	.val_bits	= 32,
@@ -1094,19 +1094,19 @@ static const struct regmap_config disp_cc_sdmmagpie_regmap_config = {
 	.fast_io	= true,
 };
 
-static const struct qcom_cc_desc disp_cc_sdmmagpie_desc = {
-	.config = &disp_cc_sdmmagpie_regmap_config,
-	.clks = disp_cc_sdmmagpie_clocks,
-	.num_clks = ARRAY_SIZE(disp_cc_sdmmagpie_clocks),
+static const struct qcom_cc_desc disp_cc_sm7150_desc = {
+	.config = &disp_cc_sm7150_regmap_config,
+	.clks = disp_cc_sm7150_clocks,
+	.num_clks = ARRAY_SIZE(disp_cc_sm7150_clocks),
 };
 
-static const struct of_device_id disp_cc_sdmmagpie_match_table[] = {
-	{ .compatible = "qcom,dispcc-sdmmagpie" },
+static const struct of_device_id disp_cc_sm7150_match_table[] = {
+	{ .compatible = "qcom,dispcc-sm7150" },
 	{ }
 };
-MODULE_DEVICE_TABLE(of, disp_cc_sdmmagpie_match_table);
+MODULE_DEVICE_TABLE(of, disp_cc_sm7150_match_table);
 
-static int disp_cc_sdmmagpie_probe(struct platform_device *pdev)
+static int disp_cc_sm7150_probe(struct platform_device *pdev)
 {
 	struct regmap *regmap;
 	int ret;
@@ -1119,7 +1119,7 @@ static int disp_cc_sdmmagpie_probe(struct platform_device *pdev)
 		return PTR_ERR(vdd_cx.regulator[0]);
 	}
 
-	regmap = qcom_cc_map(pdev, &disp_cc_sdmmagpie_desc);
+	regmap = qcom_cc_map(pdev, &disp_cc_sm7150_desc);
 	if (IS_ERR(regmap)) {
 		pr_err("Failed to map the disp_cc registers\n");
 		return PTR_ERR(regmap);
@@ -1130,7 +1130,7 @@ static int disp_cc_sdmmagpie_probe(struct platform_device *pdev)
 	/* Enable clock gating for DSI and MDP clocks */
 	regmap_update_bits(regmap, DISP_CC_MISC_CMD, 0x7f0, 0x7f0);
 
-	ret = qcom_cc_really_probe(pdev, &disp_cc_sdmmagpie_desc, regmap);
+	ret = qcom_cc_really_probe(pdev, &disp_cc_sm7150_desc, regmap);
 	if (ret) {
 		dev_err(&pdev->dev, "Failed to register Display CC clocks\n");
 		return ret;
@@ -1140,26 +1140,26 @@ static int disp_cc_sdmmagpie_probe(struct platform_device *pdev)
 	return ret;
 }
 
-static struct platform_driver disp_cc_sdmmagpie_driver = {
-	.probe = disp_cc_sdmmagpie_probe,
+static struct platform_driver disp_cc_sm7150_driver = {
+	.probe = disp_cc_sm7150_probe,
 	.driver = {
-		.name = "disp_cc-sdmmagpie",
-		.of_match_table = disp_cc_sdmmagpie_match_table,
+		.name = "disp_cc-sm7150",
+		.of_match_table = disp_cc_sm7150_match_table,
 	},
 };
 
-static int __init disp_cc_sdmmagpie_init(void)
+static int __init disp_cc_sm7150_init(void)
 {
-	return platform_driver_register(&disp_cc_sdmmagpie_driver);
+	return platform_driver_register(&disp_cc_sm7150_driver);
 }
-subsys_initcall(disp_cc_sdmmagpie_init);
+subsys_initcall(disp_cc_sm7150_init);
 
-static void __exit disp_cc_sdmmagpie_exit(void)
+static void __exit disp_cc_sm7150_exit(void)
 {
-	platform_driver_unregister(&disp_cc_sdmmagpie_driver);
+	platform_driver_unregister(&disp_cc_sm7150_driver);
 }
-module_exit(disp_cc_sdmmagpie_exit);
+module_exit(disp_cc_sm7150_exit);
 
-MODULE_DESCRIPTION("QTI DISP_CC sdmmagpie Driver");
+MODULE_DESCRIPTION("QTI DISP_CC sm7150 Driver");
 MODULE_LICENSE("GPL v2");
-MODULE_ALIAS("platform:disp_cc-sdmmagpie");
+MODULE_ALIAS("platform:disp_cc-sm7150");
