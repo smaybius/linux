@@ -48,6 +48,34 @@ enum {
 	P_GPLL0_OUT_MAIN,
 };
 
+static struct pll_vco fabia_vco[] = {
+	{ 249600000, 2000000000, 0 },
+	{ 125000000, 1000000000, 1 },
+};
+
+/* 860MHz configuration */
+static const struct alpha_pll_config disp_cc_pll0_config = {
+	.l = 0x2c,
+	.alpha = 0xcaaa,
+	.test_ctl_val = 0x40000000,
+};
+
+static struct clk_alpha_pll disp_cc_pll0 = {
+	.offset = 0x0,
+	.vco_table = fabia_vco,
+	.num_vco = ARRAY_SIZE(fabia_vco),
+	.clkr = {
+		.hw.init = &(struct clk_init_data){
+			.name = "disp_cc_pll0",
+			.parent_data = &(const struct clk_parent_data){
+				.fw_name = "bi_tcxo",
+			},
+			.num_parents = 1,
+			.ops = &clk_alpha_pll_fabia_ops,
+		},
+	},
+};
+
 static const struct parent_map disp_cc_parent_map_0[] = {
 	{ P_BI_TCXO, 0 },
 	{ P_DSI0_PHY_PLL_OUT_BYTECLK, 1 },
@@ -141,34 +169,6 @@ static const struct parent_map disp_cc_parent_map_6[] = {
 static const char * const disp_cc_parent_names_6[] = {
 	"chip_sleep_clk",
 	"core_bi_pll_test_se",
-};
-
-static struct pll_vco fabia_vco[] = {
-	{ 249600000, 2000000000, 0 },
-	{ 125000000, 1000000000, 1 },
-};
-
-/* 860MHz configuration */
-static const struct alpha_pll_config disp_cc_pll0_config = {
-	.l = 0x2c,
-	.alpha = 0xcaaa,
-	.test_ctl_val = 0x40000000,
-};
-
-static struct clk_alpha_pll disp_cc_pll0 = {
-	.offset = 0x0,
-	.vco_table = fabia_vco,
-	.num_vco = ARRAY_SIZE(fabia_vco),
-	.clkr = {
-		.hw.init = &(struct clk_init_data){
-			.name = "disp_cc_pll0",
-			.parent_data = &(const struct clk_parent_data){
-				.fw_name = "bi_tcxo",
-			},
-			.num_parents = 1,
-			.ops = &clk_alpha_pll_fabia_ops,
-		},
-	},
 };
 
 static const struct freq_tbl ftbl_disp_cc_mdss_ahb_clk_src[] = {
