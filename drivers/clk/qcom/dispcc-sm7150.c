@@ -29,6 +29,7 @@
 #include "clk-regmap.h"
 #include "clk-regmap-divider.h"
 #include "common.h"
+#include "gdsc.h"
 #include "reset.h"
 
 enum {
@@ -932,6 +933,18 @@ static struct clk_branch disp_cc_xo_clk = {
 	},
 };
 
+static struct gdsc dispcc_mdss_gdsc = {
+	.gdscr = 0x3000,
+	.en_rest_wait_val = 0x2,
+	.en_few_wait_val = 0x2,
+	.clk_dis_wait_val = 0xf,
+	.pd = {
+		.name = "mdss_gdsc",
+	},
+	.pwrsts = PWRSTS_OFF_ON,
+	.flags = HW_CTRL,
+};
+
 static struct clk_regmap *disp_cc_sm7150_clocks[] = {
 	[DISP_CC_MDSS_AHB_CLK] = &disp_cc_mdss_ahb_clk.clkr,
 	[DISP_CC_MDSS_AHB_CLK_SRC] = &disp_cc_mdss_ahb_clk_src.clkr,
@@ -979,6 +992,10 @@ static struct clk_regmap *disp_cc_sm7150_clocks[] = {
 	[DISP_CC_XO_CLK_SRC] = &disp_cc_xo_clk_src.clkr,
 };
 
+static struct gdsc *dispcc_sm7150_gdscs[] = {
+	[DISPCC_MDSS_GDSC] = &dispcc_mdss_gdsc,
+};
+
 static const struct regmap_config disp_cc_sm7150_regmap_config = {
 	.reg_bits	= 32,
 	.reg_stride	= 4,
@@ -991,6 +1008,8 @@ static const struct qcom_cc_desc disp_cc_sm7150_desc = {
 	.config = &disp_cc_sm7150_regmap_config,
 	.clks = disp_cc_sm7150_clocks,
 	.num_clks = ARRAY_SIZE(disp_cc_sm7150_clocks),
+	.gdscs = disp_cc_sm7150_gdscs,
+	.num_gdscs = ARRAY_SIZE(disp_cc_sm7150_gdscs),
 };
 
 static const struct of_device_id disp_cc_sm7150_match_table[] = {
