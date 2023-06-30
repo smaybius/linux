@@ -21,7 +21,7 @@
 #include <linux/regmap.h>
 #include <linux/reset-controller.h>
 
-#include <dt-bindings/clock/qcom,dispcc-sm7150.h>
+#include <dt-bindings/clock/qcom,sm7150-dispcc.h>
 
 #include "clk-alpha-pll.h"
 #include "clk-branch.h"
