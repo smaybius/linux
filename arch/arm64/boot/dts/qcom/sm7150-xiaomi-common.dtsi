@@ -31,7 +31,7 @@
 
 	chosen {
 		bootargs = "PMOS_NOSPLASH console=tty0";
-		stdout-path = "serial0:115200n8";
+		//stdout-path = "serial0:115200n8";
 	};
 
 	gpio_keys: gpio-keys {
