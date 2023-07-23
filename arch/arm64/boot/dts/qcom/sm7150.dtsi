@@ -1859,7 +1859,7 @@
 		};
 
 		mdss: display-subsystem@ae00000 {
-			compatible = "qcom,sm7150-mdss";
+			compatible = "qcom,sm7150-mdss", "qcom,sc7180-mdss";
 			reg = <0 0x0ae00000 0 0x1000>;
 			reg-names = "mdss";
 
