@@ -42,9 +42,9 @@ static const struct dpu_mdp_cfg sm7150_mdp[] = {
 };
 
 static const struct dpu_sspp_sub_blks sm7150_vig_sblk_0 =
-				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED3LITE);
+				_VIG_SBLK("0", 5, DPU_SSPP_SCALER_QSEED4);
 static const struct dpu_sspp_sub_blks sm7150_vig_sblk_1 =
-				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED3LITE);
+				_VIG_SBLK("1", 6, DPU_SSPP_SCALER_QSEED4);
 
 static const struct dpu_sspp_cfg sm7150_sspp[] = {
 	// Should be rechecked
