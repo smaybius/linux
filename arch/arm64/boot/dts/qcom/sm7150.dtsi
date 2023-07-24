@@ -1627,13 +1627,17 @@
 
 			#cooling-cells = <2>;
 
+			zap-shader {
+				memory-region = <&gpu_mem>;
+			};
+
 			gpu_opp_table: opp-table {
 				compatible = "operating-points-v2";
 
-				opp-825000000 {
+				/*opp-825000000 {
 					opp-hz = /bits/ 64 <825000000>;
 					opp-level = <RPMH_REGULATOR_LEVEL_TURBO_L1>;
-				};
+				};*/
 
 				opp-800000000 {
 					opp-hz = /bits/ 64 <800000000>;
@@ -1688,10 +1692,13 @@
 				     <GIC_SPI 370 IRQ_TYPE_EDGE_RISING>,
 				     <GIC_SPI 371 IRQ_TYPE_EDGE_RISING>;
 
-			clocks = <&gpucc GPU_CC_AHB_CLK>,
+			/*clocks = <&gpucc GPU_CC_AHB_CLK>,
 				 <&gcc GCC_GPU_MEMNOC_GFX_CLK>,
 				 <&gcc GCC_GPU_SNOC_DVM_GFX_CLK>;
-			clock-names = "ahb", "bus", "iface";
+			clock-names = "ahb", "bus", "iface";*/
+
+			clocks = <&gcc GCC_GPU_MEMNOC_GFX_CLK>;
+			clock-names = "bus";
 
 			power-domains = <&gpucc CX_GDSC>;
 		};
@@ -1702,7 +1709,7 @@
 			      <0 0x0b490000 0 0x10000>;
 			reg-names = "gmu", "gmu_pdc", "gmu_pdc_seq";
 			interrupts = <GIC_SPI 304 IRQ_TYPE_LEVEL_HIGH>,
-				   <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
+				     <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>;
 			interrupt-names = "hfi", "gmu";
 			clocks = <&gpucc GPU_CC_CX_GMU_CLK>,
 			       <&gpucc GPU_CC_CXO_CLK>,
@@ -1866,10 +1873,8 @@
 			power-domains = <&dispcc MDSS_GDSC>;
 
 			clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
-				 <&gcc GCC_DISP_HF_AXI_CLK>,
-				 <&gcc GCC_DISP_SF_AXI_CLK>,
 				 <&dispcc DISP_CC_MDSS_MDP_CLK>;
-			clock-names = "iface", "bus", "nrt_bus", "core";
+			clock-names = "ahb", "core";
 
 			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
 			interrupt-controller;
@@ -2045,7 +2050,7 @@
 		};
 
 		dispcc: clock-controller@af00000 {
-			compatible = "qcom,sm7150-dispcc";
+			compatible = "qcom,dispcc-sm7150";
 			reg = <0 0x0af00000 0 0x200000>;
 			clocks = <&rpmhcc RPMH_CXO_CLK>,
 				 <&gcc GCC_DISP_GPLL0_CLK_SRC>,
