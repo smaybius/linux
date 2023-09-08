@@ -51,6 +51,7 @@ properties:
       - qcom,sdx55-ipa
       - qcom,sdx65-ipa
       - qcom,sm6350-ipa
+      - qcom,sm7150-ipa
       - qcom,sm8350-ipa
 
   reg:
