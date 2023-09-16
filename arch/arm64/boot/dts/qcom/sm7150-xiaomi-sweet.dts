@@ -111,11 +111,12 @@
 		compatible = "goodix,gt9896";
 		reg = <0x5d>;
 		interrupt-parent = <&tlmm>;
-		interrupts = <9 0x2800>;
+		interrupts = <9 IRQ_TYPE_NONE>;
 		pinctrl-0 = <&ts_int_active &ts_reset_active>;
 		pinctrl-1 = <&ts_int_suspend &ts_reset_suspend>;
 		pinctrl-names = "default", "sleep";
 		vtouch-supply = <&vreg_l11c_3p3>;
+		vtouch-load = <600000>;
 		goodix,vdd-gpio = <&tlmm 90 GPIO_ACTIVE_HIGH>;
 		goodix,avdd-name = "vtouch";
 		goodix,reset-gpio = <&tlmm 8 GPIO_ACTIVE_HIGH>;
