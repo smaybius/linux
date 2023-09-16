@@ -343,7 +343,7 @@
 
 &venus {
 	firmware-name = "qcom/sm7150/surya/venus.mbn";
-	//status = "okay";
+	status = "okay";
 };
 
 &vreg_l18a_2p8 {
