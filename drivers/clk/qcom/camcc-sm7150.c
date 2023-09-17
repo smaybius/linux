@@ -51,7 +51,7 @@ static struct pll_vco fabia_vco[] = {
 
 /* 1200MHz configuration */
 static const struct alpha_pll_config cam_cc_pll0_config = {
-	.l = 0x3E,
+	.l = 0x3e,
 	.alpha = 0x8000,
 	.post_div_mask = 0xff << 8,
 	.post_div_val = 0x31 << 8,
@@ -104,7 +104,7 @@ static struct clk_fixed_factor cam_cc_pll0_out_odd = {
 /* 680MHz configuration */
 static const struct alpha_pll_config cam_cc_pll1_config = {
 	.l = 0x23,
-	.alpha = 0x6AAA,
+	.alpha = 0x6aaa,
 	.post_div_mask = 0xf << 8,
 	.post_div_val = 0x1 << 8,
 	.test_ctl_val = 0x40000000,
