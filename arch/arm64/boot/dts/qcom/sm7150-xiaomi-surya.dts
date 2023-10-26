@@ -35,6 +35,7 @@
 	chosen {
 		#address-cells = <2>;
 		#size-cells = <2>;
+		bootargs = "PMOS_NOSPLASH";
 		ranges;
 
 		stdout-path = "serial0:115200n8";
@@ -403,7 +404,7 @@
 };
 
 &gmu {
-	status = "okay";
+	//status = "okay";
 };
 
 &gpi_dma0 {
@@ -415,11 +416,11 @@
 };
 
 &gpu {
-	status = "okay";
+	//status = "okay";
 };
 
 &i2c1 {
-	status = "okay";
+	//status = "okay";
 	clock-frequency = <100000>;
 
 	haptics@5a {
@@ -448,14 +449,14 @@
 };
 
 &i2c2 {
-	status = "okay";
+	//status = "okay";
 	clock-frequency = <100000>;
 
 	/* nqx,nq-nci (nfc) @ 28 */
 };
 
 &i2c9 {
-	status = "okay";
+	//status = "okay";
 	clock-frequency = <100000>;
 
 	/* ovti,wl2866d (cam regulator) @ 28 */
@@ -558,7 +559,7 @@
 };
 
 &qupv3_id_1 {
-	status = "okay";
+	//status = "okay";
 };
 
 &qup_uart8_tx {
@@ -620,7 +621,7 @@
 };
 
 &spi11 {
-	status = "okay";
+	//status = "okay";
 
 	/* qcom,spi-msm-codec-slave @ 1 */
 };
@@ -710,7 +711,7 @@
 };
 
 &uart3 {
-	status = "okay";
+	//status = "okay";
 
 	/delete-property/interrupts;
 	interrupts-extended = <&intc GIC_SPI 604 IRQ_TYPE_LEVEL_HIGH>,
@@ -731,7 +732,7 @@
 };
 
 &uart8 {
-	status = "okay";
+	//status = "okay";
 };
 
 &ufs_mem_hc {
