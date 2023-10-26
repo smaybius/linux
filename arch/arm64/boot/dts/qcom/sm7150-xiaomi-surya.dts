@@ -35,8 +35,6 @@
 	chosen {
 		#address-cells = <2>;
 		#size-cells = <2>;
-		// This is necessary for sdhc to work.
-		bootargs = "sdhci.debug_quirks=0x40";
 		ranges;
 
 		stdout-path = "serial0:115200n8";
