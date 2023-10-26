@@ -2506,7 +2506,7 @@
 			compatible = "qcom,sm7150-sdhci", "qcom,sdhci-msm-v5";
 			reg = <0 0x08804000 0 0x1000>;
 
-			iommus = <&apps_smmu 0x80 0>;
+			iommus = <&apps_smmu 0x2a0 0x0>;
 			interrupts = <GIC_SPI 204 IRQ_TYPE_LEVEL_HIGH>,
 				     <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>;
 			interrupt-names = "hc_irq", "pwr_irq";
