@@ -15,6 +15,8 @@
 #include <dt-bindings/clock/qcom,sm7150-dispcc.h>
 #include <dt-bindings/dma/qcom-gpi.h>
 #include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interconnect/qcom,osm-l3.h>
+#include <dt-bindings/interconnect/qcom,sm7150.h>
 #include <dt-bindings/interrupt-controller/arm-gic.h>
 #include <dt-bindings/thermal/thermal.h>
 
@@ -1804,6 +1806,11 @@
 			clocks = <&rpmhcc RPMH_IPA_CLK>;
 			clock-names = "core";
 
+			interconnects = <&aggre2_noc MASTER_IPA 0 &mc_virt SLAVE_EBI_CH0 0>,
+					<&aggre2_noc MASTER_IPA 0 &system_noc SLAVE_OCIMEM 0>,
+					<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_IPA_CFG 0>;
+			interconnect-names = "memory", "imem", "config";
+
 			qcom,qmp = <&aoss_qmp>;
 
 			qcom,smem-states = <&ipa_smp2p_out 0>,
@@ -2515,9 +2522,12 @@
 				 <&gcc GCC_SDCC2_APPS_CLK>,
 				 <&rpmhcc RPMH_CXO_CLK>;
 			clock-names = "iface", "core", "xo";
+			interconnects = <&aggre2_noc MASTER_SDCC_2 0 &mc_virt SLAVE_EBI_CH0 0>,
+					<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_SDCC_2 0>;
+			interconnect-names = "sdhc-ddr", "cpu-sdhc";
 
-			qcom,dll-config = <0x0007642c>; // FIXME
-			qcom,ddr-config = <0x80040868>; // Add interconnects
+			qcom,dll-config = <0x0007642c>;
+			qcom,ddr-config = <0x80040868>;
 			power-domains = <&rpmhpd SM7150_CX>;
 			operating-points-v2 = <&sdhc2_opp_table>;
 
@@ -2531,16 +2541,22 @@
 				opp-50000000 {
 					opp-hz = /bits/ 64 <50000000>;
 					required-opps = <&rpmhpd_opp_low_svs>;
+					opp-peak-kBps = <120000 80000>;
+					opp-avg-kBps = <60000 40000>;
 				};
 
 				opp-100000000 {
 					opp-hz = /bits/ 64 <100000000>;
 					required-opps = <&rpmhpd_opp_svs>;
+					opp-peak-kBps = <160000 100000>;
+					opp-avg-kBps = <80000 50000>;
 				};
 
 				opp-208000000 {
 					opp-hz = /bits/ 64 <208000000>;
 					required-opps = <&rpmhpd_opp_nom>;
+					opp-peak-kBps = <200000 120000>;
+					opp-avg-kBps = <100000 60000>;
 				};
 			};
 		};
@@ -2627,6 +2643,10 @@
 				#size-cells = <0>;
 				power-domains = <&rpmhpd SM7150_CX>;
 				operating-points-v2 = <&qup_opp_table>;
+				interconnects = <&aggre1_noc MASTER_QUP_0 0 &config_noc SLAVE_QUP_0 0>,
+						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&aggre1_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI_CH0 0>;
+				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
 			};
 
@@ -3051,6 +3071,54 @@
 			};
 		};
 
+		mc_virt: interconnect@1380000 {
+			compatible = "qcom,sm7150-mc-virt";
+			reg = <0 0x01380000 0 0x40000>;
+			#interconnect-cells = <2>;
+			qcom,bcm-voters = <&apps_bcm_voter>;
+		};
+
+		config_noc: interconnect@1500000 {
+			compatible = "qcom,sm7150-config-noc";
+			reg = <0 0x01500000 0 0x28000>;
+			#interconnect-cells = <2>;
+			qcom,bcm-voters = <&apps_bcm_voter>;
+		};
+
+		system_noc: interconnect@1620000 {
+			compatible = "qcom,sm7150-system-noc";
+			reg = <0 0x01620000 0 0x40000>;
+			#interconnect-cells = <2>;
+			qcom,bcm-voters = <&apps_bcm_voter>;
+
+			camnoc_virt: interconnect-camnoc {
+				compatible = "qcom,sm7150-camnoc-virt";
+				#interconnect-cells = <2>;
+				qcom,bcm-voters = <&apps_bcm_voter>;
+			};
+		};
+
+		aggre1_noc: interconnect@16e0000 {
+			compatible = "qcom,sm7150-aggre1-noc";
+			reg = <0 0x016e0000 0 0x11080>;
+			#interconnect-cells = <2>;
+			qcom,bcm-voters = <&apps_bcm_voter>;
+		};
+
+		aggre2_noc: interconnect@1700000 {
+			compatible = "qcom,sm7150-aggre2-noc";
+			reg = <0 0x01700000 0 0x1f080>;
+			#interconnect-cells = <2>;
+			qcom,bcm-voters = <&apps_bcm_voter>;
+		};
+
+		mmss_noc: interconnect@1740000 {
+			compatible = "qcom,sm7150-mmss-noc";
+			reg = <0 0x01740000 0 0x1c100>;
+			#interconnect-cells = <2>;
+			qcom,bcm-voters = <&apps_bcm_voter>;
+		};
+
 		usb_1_hsphy: phy@88e2000 {
 			compatible = "qcom,sm7150-qusb2-phy", "qcom,qusb2-v2-phy";
 			reg = <0 0x088e2000 0 0x400>;
@@ -3062,11 +3130,33 @@
 			resets = <&gcc GCC_QUSB2PHY_PRIM_BCR>;
 		};
 
+
+		compute_noc: interconnect@80a8000 {
+			compatible = "qcom,sm7150-compute-noc";
+			reg = <0 0x080a8000 0 0x1400>;
+			#interconnect-cells = <2>;
+			qcom,bcm-voters = <&apps_bcm_voter>;
+		};
+
+		dc_noc: interconnect@9160000 {
+			compatible = "qcom,sm7150-dc-noc";
+			reg = <0 0x09160000 0 0x3200>;
+			#interconnect-cells = <2>;
+			qcom,bcm-voters = <&apps_bcm_voter>;
+		};
+
 		system-cache-controller@9200000 {
 			compatible = "qcom,sm7150-llcc";
 			reg = <0 0x09200000 0 0x50000>, <0 0x09600000 0 0x50000>;
 			reg-names = "llcc_base", "llcc_broadcast_base";
 			interrupts = <GIC_SPI 582 IRQ_TYPE_LEVEL_HIGH>;
+		};
+
+		gem_noc: interconnect@9680000 {
+			compatible = "qcom,sm7150-gem-noc";
+			reg = <0 0x09680000 0 0x3e200>;
+			#interconnect-cells = <2>;
+			qcom,bcm-voters = <&apps_bcm_voter>;
 		};
 
 		usb_1: usb@a6f8800 {
@@ -3091,7 +3181,7 @@
 
 			assigned-clocks = <&gcc GCC_USB30_PRIM_MOCK_UTMI_CLK>,
 					  <&gcc GCC_USB30_PRIM_MASTER_CLK>;
-			assigned-clock-rates = <19200000>, <133333333>;
+			assigned-clock-rates = <19200000>, <150000000>;
 
 			interrupts-extended = <&intc GIC_SPI 131 IRQ_TYPE_LEVEL_HIGH>,
 						  <&pdc 6 IRQ_TYPE_LEVEL_HIGH>,
@@ -3105,9 +3195,13 @@
 
 			resets = <&gcc GCC_USB30_PRIM_BCR>;
 
+			//interconnects = <&aggre2_noc MASTER_USB3 &mc_virt SLAVE_EBI_CH0>,
+			//		<&gem_noc MASTER_AMPSS_M0 &config_noc SLAVE_USB3>;
+			//interconnect-names = "usb-ddr", "apps-usb";
+
 			usb_1_dwc3: usb@a600000 {
 				compatible = "snps,dwc3";
-				reg = <0 0x0a600000 0 0xcd00>;
+				reg = <0 0x0a600000 0 0xe000>;
 				interrupts = <GIC_SPI 133 IRQ_TYPE_LEVEL_HIGH>;
 				iommus = <&apps_smmu 0x540 0>;
 				snps,dis_u2_susphy_quirk;
