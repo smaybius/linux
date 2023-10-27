@@ -3195,9 +3195,9 @@
 
 			resets = <&gcc GCC_USB30_PRIM_BCR>;
 
-			//interconnects = <&aggre2_noc MASTER_USB3 &mc_virt SLAVE_EBI_CH0>,
-			//		<&gem_noc MASTER_AMPSS_M0 &config_noc SLAVE_USB3>;
-			//interconnect-names = "usb-ddr", "apps-usb";
+			interconnects = <&aggre2_noc MASTER_USB3 0 &mc_virt SLAVE_EBI_CH0 0>,
+					<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_USB3 0>;
+			interconnect-names = "usb-ddr", "apps-usb";
 
 			usb_1_dwc3: usb@a600000 {
 				compatible = "snps,dwc3";
