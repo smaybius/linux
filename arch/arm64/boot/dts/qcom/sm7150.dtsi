@@ -883,7 +883,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
 				interconnects = <&aggre1_noc MASTER_QUP_0 0 &config_noc SLAVE_QUP_0 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_0 0>,
 						<&aggre1_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -905,7 +905,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				operating-points-v2 = <&qup_opp_table>;
 				interconnects = <&aggre1_noc MASTER_QUP_0 0 &config_noc SLAVE_QUP_0 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_0 0>,
 						<&aggre1_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -927,7 +927,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
 				interconnects = <&aggre1_noc MASTER_QUP_0 0 &config_noc SLAVE_QUP_0 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_0 0>,
 						<&aggre1_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -949,7 +949,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				operating-points-v2 = <&qup_opp_table>;
 				interconnects = <&aggre1_noc MASTER_QUP_0 0 &config_noc SLAVE_QUP_0 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_0 0>,
 						<&aggre1_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -971,7 +971,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
 				interconnects = <&aggre1_noc MASTER_QUP_0 0 &config_noc SLAVE_QUP_0 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_0 0>,
 						<&aggre1_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -993,7 +993,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
 				interconnects = <&aggre1_noc MASTER_QUP_0 0 &config_noc SLAVE_QUP_0 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_0 0>,
 						<&aggre1_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1015,7 +1015,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				operating-points-v2 = <&qup_opp_table>;
 				interconnects = <&aggre1_noc MASTER_QUP_0 0 &config_noc SLAVE_QUP_0 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_0 0>,
 						<&aggre1_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1053,7 +1053,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
 				interconnects = <&aggre1_noc MASTER_QUP_0 0 &config_noc SLAVE_QUP_0 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_0 0>,
 						<&aggre1_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1075,7 +1075,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				operating-points-v2 = <&qup_opp_table>;
 				interconnects = <&aggre1_noc MASTER_QUP_0 0 &config_noc SLAVE_QUP_0 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_0 0>,
 						<&aggre1_noc MASTER_QUP_0 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1145,7 +1145,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
 				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1167,7 +1167,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				operating-points-v2 = <&qup_opp_table>;
 				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1189,7 +1189,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
 				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1211,7 +1211,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				operating-points-v2 = <&qup_opp_table>;
 				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1233,7 +1233,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
 				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1255,7 +1255,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				operating-points-v2 = <&qup_opp_table>;
 				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1292,8 +1292,8 @@
 				#size-cells = <0>;
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
-				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>, //broken
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1315,7 +1315,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
 				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1337,7 +1337,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				operating-points-v2 = <&qup_opp_table>;
 				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1375,7 +1375,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				required-opps = <&rpmhpd_opp_low_svs>;
 				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
@@ -1397,7 +1397,7 @@
 				power-domains = <&rpmhpd RPMHPD_CX>;
 				operating-points-v2 = <&qup_opp_table>;
 				interconnects = <&aggre1_noc MASTER_QUP_1 0 &config_noc SLAVE_QUP_1 0>,
-						<&system_noc A1NOC_SNOC_MAS 0 &gem_noc SLAVE_LLCC 0>,
+						<&gem_noc MASTER_AMPSS_M0 0 &config_noc SLAVE_QUP_1 0>,
 						<&aggre1_noc MASTER_QUP_1 0 &mc_virt SLAVE_EBI_CH0 0>;
 				interconnect-names = "qup-core", "qup-config", "qup-memory";
 				status = "disabled";
