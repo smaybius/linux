@@ -256,12 +256,12 @@
 };
 
 &q6afedai {
-	qi2s@127 {
+	qi2s@20 {
 		reg = <TERTIARY_MI2S_RX>;
 		qcom,sd-lines = <0>;
 	};
 
-	qi2s@128 {
+	qi2s@21 {
 		reg = <TERTIARY_MI2S_TX>;
 		qcom,sd-lines = <1>;
 	};
