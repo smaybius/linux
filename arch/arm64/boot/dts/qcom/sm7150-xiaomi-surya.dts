@@ -178,15 +178,25 @@
 		orientation-switch;
 	};
 
-	tas2564: codec@4c {
+	tas2564: codec@4d { /* EAR */
 		compatible = "ti,tas2564";
-		reg = <0x4c>;
+		reg = <0x4d>;
 		#sound-dai-cells = <0>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&audio_pa_reset_pin>;
 		interrupt-parent = <&tlmm>;
-		interrupts = <30 IRQ_TYPE_EDGE_FALLING>,
-			     <58 IRQ_TYPE_EDGE_FALLING>;
+		interrupts = <58 IRQ_TYPE_EDGE_FALLING>;
+		shutdown-gpios = <&pm8150l_gpios 8 GPIO_ACTIVE_LOW>;
+		ti,vmon-slot-no = <0>;
+		ti,imon-slot-no = <0>;
+	};
+
+	tas2562: codec@4c { /* SPK */
+		compatible = "ti,tas2562";
+		reg = <0x4c>;
+		#sound-dai-cells = <0>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <30 IRQ_TYPE_EDGE_FALLING>;
 		shutdown-gpios = <&tlmm 91 GPIO_ACTIVE_HIGH>;
 		ti,vmon-slot-no = <0>;
 		ti,imon-slot-no = <0>;
@@ -258,12 +268,12 @@
 &q6afedai {
 	qi2s@20 {
 		reg = <TERTIARY_MI2S_RX>;
-		qcom,sd-lines = <0>;
+		qcom,sd-lines = <1>;
 	};
 
 	qi2s@21 {
 		reg = <TERTIARY_MI2S_TX>;
-		qcom,sd-lines = <1>;
+		qcom,sd-lines = <2>;
 	};
 };
 
@@ -316,7 +326,7 @@
 		};
 
 		codec {
-			sound-dai = <&tas2564>;
+			sound-dai = <&tas2562 0>, <&tas2564 0>;
 		};
 	};
 };
