@@ -268,12 +268,12 @@
 &q6afedai {
 	qi2s@20 {
 		reg = <TERTIARY_MI2S_RX>;
-		qcom,sd-lines = <1>;
+		qcom,sd-lines = <0>;
 	};
 
 	qi2s@21 {
 		reg = <TERTIARY_MI2S_TX>;
-		qcom,sd-lines = <2>;
+		qcom,sd-lines = <1>;
 	};
 };
 
@@ -306,7 +306,7 @@
 	compatible = "qcom,sm8250-sndcard";
 	pinctrl-0 = <&ter_mi2s_active>;
 	pinctrl-names = "default";
-	model = "Poco X3";
+	model = "POCO X3";
 
 	mm1-dai-link {
 		link-name = "MultiMedia1";
@@ -326,7 +326,7 @@
 		};
 
 		codec {
-			sound-dai = <&tas2562 0>, <&tas2564 0>;
+			sound-dai = <&tas2562>; /*, <&tas2564 0>;*/
 		};
 	};
 };
