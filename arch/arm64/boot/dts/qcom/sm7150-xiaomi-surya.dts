@@ -31,6 +31,9 @@
 			height = <2400>;
 			stride = <(1080 * 4)>;
 			format = "a8r8g8b8";
+
+			display = <&panel>;
+
 			clocks = <&gcc GCC_DISP_HF_AXI_CLK>;
 		};
 	};
@@ -107,6 +110,10 @@
 			qcom,vmid = <QCOM_SCM_VMID_MSS_MSA>;
 		};
 	};
+};
+
+&dispcc {
+	status = "okay";
 };
 
 &cci0 {
@@ -203,6 +210,18 @@
 	};
 
 	/* ti,bq25968 (charger) @ 65 */
+};
+
+&mdss {
+	status = "okay";
+};
+
+&mdss_dsi0 {
+	status = "okay";
+};
+
+&mdss_dsi0_phy {
+	status = "okay";
 };
 
 &ipa {
