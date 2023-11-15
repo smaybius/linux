@@ -215,9 +215,6 @@ static int nt36672c_prepare(struct drm_panel *panel)
 
 	drm_dsc_pps_payload_pack(&pps, &ctx->dsc);
 
-	print_hex_dump(KERN_DEBUG, "DSC params:", DUMP_PREFIX_NONE,
-		16, 1, &pps, sizeof(pps), false);
-
 	ret = mipi_dsi_picture_parameter_set(ctx->dsi, &pps);
 	if (ret < 0) {
 		dev_err(panel->dev, "failed to transmit PPS: %d\n", ret);
@@ -315,8 +312,6 @@ static int nt36672c_probe(struct mipi_dsi_device *dsi)
 	dsi->format = MIPI_DSI_FMT_RGB888;
 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_CLOCK_NON_CONTINUOUS |
 			  MIPI_DSI_MODE_LPM;
-
-	ctx->panel.prepare_prev_first = true;
 
 	drm_panel_init(&ctx->panel, dev, &nt36672c_panel_funcs,
 		       DRM_MODE_CONNECTOR_DSI);
