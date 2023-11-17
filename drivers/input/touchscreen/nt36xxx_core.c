@@ -187,6 +187,12 @@ static const struct nt36xxx_trim_table trim_id_table[] = {
 		.mapid = NT36675_IC,
 		.hw_crc = 2,
 	},
+	{
+		.id = { 0x0C, 0xFF, 0xFF, 0x72, 0x66, 0x03 },
+		.mask = { 1, 0, 0, 1, 1, 1 },
+		.mapid = NT36675_IC,
+		.hw_crc = 2,
+	},
 	{ },
 };
 
