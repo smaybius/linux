@@ -24,8 +24,7 @@ struct nt36672c {
 	bool prepared;
 };
 
-static inline
-struct nt36672c *to_nt36672c(struct drm_panel *panel)
+static inline struct nt36672c *to_nt36672c(struct drm_panel *panel)
 {
 	return container_of(panel, struct nt36672c, panel);
 }
@@ -46,21 +45,29 @@ static int nt36672c_on(struct nt36672c *ctx)
 	struct device *dev = &dsi->dev;
 	int ret;
 
+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
+
+	/* Huaxing changes */
 	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x10);
 	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
 	mipi_dsi_dcs_write_seq(dsi, 0xb0, 0x00);
+
 	mipi_dsi_dcs_write_seq(dsi, 0xff, 0xe0);
 	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
 	mipi_dsi_dcs_write_seq(dsi, 0x35, 0x82);
+
 	mipi_dsi_dcs_write_seq(dsi, 0xff, 0xf0);
 	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
 	mipi_dsi_dcs_write_seq(dsi, 0x5a, 0x00);
 	mipi_dsi_dcs_write_seq(dsi, 0x9c, 0x00);
 	mipi_dsi_dcs_write_seq(dsi, 0xbe, 0x08);
+
 	mipi_dsi_dcs_write_seq(dsi, 0xff, 0xc0);
 	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
 	mipi_dsi_dcs_write_seq(dsi, 0x9c, 0x11);
 	mipi_dsi_dcs_write_seq(dsi, 0x9d, 0x11);
+
+	/* PWN ON */
 	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x10);
 	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
 
@@ -72,6 +79,9 @@ static int nt36672c_on(struct nt36672c *ctx)
 
 	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x2c);
 	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
+
+	/* Novatek changes (cabc) begin */
+	/* 1080x2400 */
 	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x23);
 	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
 	mipi_dsi_dcs_write_seq(dsi, 0x10, 0x82);
@@ -79,6 +89,8 @@ static int nt36672c_on(struct nt36672c *ctx)
 	mipi_dsi_dcs_write_seq(dsi, 0x12, 0x95);
 	mipi_dsi_dcs_write_seq(dsi, 0x15, 0x68);
 	mipi_dsi_dcs_write_seq(dsi, 0x16, 0x0b);
+
+	/* UI_PWM DUTY */
 	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_ROWS, 0xff);
 	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_PARTIAL_COLUMNS, 0xfd);
 	mipi_dsi_dcs_write_seq(dsi, 0x32, 0xfb);
@@ -101,6 +113,8 @@ static int nt36672c_on(struct nt36672c *ctx)
 	mipi_dsi_dcs_write_seq(dsi, 0x3f, 0xe8);
 	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_VSYNC_TIMING, 0xe6);
 	mipi_dsi_dcs_write_seq(dsi, 0x41, 0xe5);
+
+	/* Still_PWM DUTY */
 	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_GET_SCANLINE, 0xff);
 	mipi_dsi_dcs_write_seq(dsi, 0x46, 0xf3);
 	mipi_dsi_dcs_write_seq(dsi, 0x47, 0xe8);
@@ -123,6 +137,8 @@ static int nt36672c_on(struct nt36672c *ctx)
 	mipi_dsi_dcs_write_seq(dsi, 0x52, 0x77);
 	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x6d);
 	mipi_dsi_dcs_write_seq(dsi, 0x54, 0x65);
+
+	/* MOV_PWM DUTY */
 	mipi_dsi_dcs_write_seq(dsi, 0x58, 0xff);
 	mipi_dsi_dcs_write_seq(dsi, 0x59, 0xf8);
 	mipi_dsi_dcs_write_seq(dsi, 0x5a, 0xf3);
@@ -140,9 +156,14 @@ static int nt36672c_on(struct nt36672c *ctx)
 	mipi_dsi_dcs_write_seq(dsi, 0x66, 0xb6);
 	mipi_dsi_dcs_write_seq(dsi, 0x67, 0xb1);
 	mipi_dsi_dcs_write_seq(dsi, 0xa0, 0x11);
+	/* Novatek changes (for cabc) end */
+
+	/* Novatek changes (esd check) begin */
 	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x27);
 	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
 	mipi_dsi_dcs_write_seq(dsi, MIPI_DCS_SET_VSYNC_TIMING, 0x25);
+	/* Novatek changes (esd check) end */
+
 	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x10);
 	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
 
@@ -160,10 +181,12 @@ static int nt36672c_on(struct nt36672c *ctx)
 	}
 	msleep(40);
 
+	/* Novatek changes (esd check) begin */
 	mipi_dsi_dcs_write_seq(dsi, 0xff, 0x27);
 	mipi_dsi_dcs_write_seq(dsi, 0xfb, 0x01);
 	mipi_dsi_dcs_write_seq(dsi, 0x3f, 0x01);
 	mipi_dsi_dcs_write_seq(dsi, 0x43, 0x08);
+	/* Novatek changes (esd check) end */
 
 	return 0;
 }
@@ -190,6 +213,8 @@ static int nt36672c_off(struct nt36672c *ctx)
 		return ret;
 	}
 	msleep(60);
+
+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
 
 	return 0;
 }
