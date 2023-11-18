@@ -161,7 +161,7 @@ static int nt36xxx_spi_probe(struct spi_device *spi)
 				   &nt36xxx_spi_input_id, regmap);
 }
 
-const struct nt36xxx_chip_data miatoll_tianma_nt36675 = {
+const struct nt36xxx_chip_data novatek_nt36xxx = {
 	.config = &nt36xxx_regmap_config_32bit,
 	.mmap = nt36675_memory_maps,
 	.fw_name = "novatek_ts_tianma_fw.bin",
@@ -173,21 +173,20 @@ const struct nt36xxx_chip_data miatoll_tianma_nt36675 = {
 };
 
 static const struct spi_device_id nt36xxx_spi_ids[] = {
-	{ "nt36675-spi", 0 },
+	{ "nt36xxx-spi", 0 },
 	{ },
 };
 MODULE_DEVICE_TABLE(spi, nt36xxx_spi_ids);
 
 static const struct of_device_id nt36xxx_spi_of_match[] = {
-	{ .compatible = "novatek,nt36675-spi", .data = &miatoll_tianma_nt36675, },
-	{ .compatible = "novatek,NVT-ts-spi", .data = &miatoll_tianma_nt36675, },
+	{ .compatible = "novatek,nt36xxx-spi", .data = &novatek_nt36xxx, },
 	{ }
 };
 MODULE_DEVICE_TABLE(of, nt36xxx_spi_of_match);
 
 static struct spi_driver nt36xxx_spi_driver = {
 	.driver = {
-		.name   = "nt36675-spi",
+		.name   = "nt36xxx-spi",
 		.of_match_table = nt36xxx_spi_of_match,
 		.pm = pm_sleep_ptr(&nt36xxx_pm_ops),
 	},
