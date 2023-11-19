@@ -164,7 +164,6 @@ static int nt36xxx_spi_probe(struct spi_device *spi)
 const struct nt36xxx_chip_data novatek_nt36xxx = {
 	.config = &nt36xxx_regmap_config_32bit,
 	.mmap = nt36675_memory_maps,
-	.fw_name = "novatek_ts_tianma_fw.bin",
 	.max_x = 1080,
 	.max_y = 2400,
 	.abs_x_max = 1080,

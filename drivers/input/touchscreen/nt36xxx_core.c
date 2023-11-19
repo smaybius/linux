@@ -114,6 +114,7 @@ struct nt36xxx_ts {
 	uint8_t hw_crc;
 
 	struct firmware fw_entry; /* containing request fw data */
+	const char *firmware_path;
 	const struct nt36xxx_chip_data *data;
 };
 
@@ -714,9 +715,9 @@ static void _nt36xxx_boot_download_firmware(struct nt36xxx_ts *ts) {
 	if (ts->fw_entry.data)
 		goto upload;
 
-	ret = request_firmware(&fw_entry, ts->data->fw_name, ts->dev);
+	ret = request_firmware(&fw_entry, ts->firmware_path, ts->dev);
 	if (ret) {
-		dev_err(ts->dev, "request fw fail name=%s\n", ts->data->fw_name);
+		dev_err(ts->dev, "request fw fail name=%s\n", ts->firmware_path);
 		goto exit;
 	}
 
@@ -1076,6 +1077,13 @@ skip_regulators:
 	ret = nt36xxx_chip_version_init(ts);
 	if (ret) {
 		dev_err(dev, "Failed to check chip version\n");
+		return ret;
+	}
+
+	/* Parse the firmware path from the device tree */
+	ret = of_property_read_string(dev->of_node, "firmware-name", &ts->firmware_path);
+	if (ret) {
+		dev_err(dev, "Failed to read firmware-name property\n");
 		return ret;
 	}
 
