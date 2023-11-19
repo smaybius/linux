@@ -82,7 +82,7 @@ struct nt36xxx_ts {
 	struct input_dev *input;
 	struct regulator_bulk_data *supplies;
 	struct gpio_desc *reset_gpio;
-        struct gpio_desc *irq_gpio;
+	struct gpio_desc *irq_gpio;
 	int irq;
 	struct device *dev;
 
@@ -232,9 +232,9 @@ const u32 nt36675_memory_maps[] = {
 };
 
 void _debug_irq(struct nt36xxx_ts *ts, int line){
-        struct irq_desc *desc;
-        desc = irq_data_to_desc( irq_get_irq_data(ts->irq));
-        dev_info(ts->dev, "%d irq_desc depth=%d", line, desc->depth );
+	struct irq_desc *desc;
+	desc = irq_data_to_desc( irq_get_irq_data(ts->irq));
+	dev_info(ts->dev, "%d irq_desc depth=%d", line, desc->depth );
 }
 
 #define debug_irq(a) _debug_irq(a, __LINE__)
@@ -288,7 +288,7 @@ static int nt36xxx_bootloader_reset(struct nt36xxx_ts *ts)
 	if (ts->mmap[MMAP_SWRST_N8_ADDR]) {
 		ret = regmap_write(ts->regmap, ts->mmap[MMAP_SWRST_N8_ADDR],
 			   NT36XXX_CMD_BOOTLOADER_RESET);
-	        if (ret)
+		if (ret)
 			return ret;
 	} else {
 		pr_info("plz make sure MMAP_SWRST_N8_ADDR is set!\n");
@@ -299,9 +299,9 @@ static int nt36xxx_bootloader_reset(struct nt36xxx_ts *ts)
 	msleep(35);
 
 	if (ts->mmap[MMAP_SPI_RD_FAST_ADDR]) {
-                ret = regmap_write(ts->regmap, ts->mmap[MMAP_SPI_RD_FAST_ADDR], 0);
-                if (ret)
-                        return ret;
+		ret = regmap_write(ts->regmap, ts->mmap[MMAP_SPI_RD_FAST_ADDR], 0);
+		if (ret)
+			return ret;
 	}
 
 	return ret;
@@ -584,7 +584,7 @@ static int32_t nvt_bin_header_parser(struct device *dev, int hw_crc, const u8 *f
 			memcpy(&bin_map[list].size, &(fwdata[8 + list*12]), 4);
 			memcpy(&bin_map[list].crc, &(fwdata[0x18 + list*4]), 4);
 
-                        if (!hw_crc) {
+			if (!hw_crc) {
 				dev_err(dev, "%s %d sw-crc not support", __func__, __LINE__);
 				return -EINVAL;
 			}
@@ -607,7 +607,7 @@ static int32_t nvt_bin_header_parser(struct device *dev, int hw_crc, const u8 *f
 			memcpy(&bin_map[list].sram_addr, &(fwdata[pos]), 4);
 			memcpy(&bin_map[list].size, &(fwdata[pos+4]), 4);
 			memcpy(&bin_map[list].bin_addr, &(fwdata[pos+8]), 4);
-                        memcpy(&bin_map[list].crc, &(fwdata[pos+12]), 4);
+			memcpy(&bin_map[list].crc, &(fwdata[pos+12]), 4);
 
 			if (!hw_crc) {
 				dev_info(dev, "ok, hw_crc not presents!");
@@ -636,8 +636,8 @@ static int32_t nvt_bin_header_parser(struct device *dev, int hw_crc, const u8 *f
 			memcpy(&bin_map[list].crc, &(fwdata[pos+12]), 4);
 
 			if (!hw_crc) {
-                                dev_err(dev, "%s %d sw_crc not support", __func__, __LINE__);
-                                return -EINVAL;
+				dev_err(dev, "%s %d sw_crc not support", __func__, __LINE__);
+				return -EINVAL;
 			}
 
 			sprintf(bin_map[list].name, "Overlay-%d", (list- ilm_dlm_num - info_sec_num));
@@ -651,8 +651,8 @@ static int32_t nvt_bin_header_parser(struct device *dev, int hw_crc, const u8 *f
 		}
 
 		dev_dbg(dev, "[%d][%s] SRAM (0x%08X), SIZE (0x%08X), BIN (0x%08X), CRC (0x%08X)\n",
-                              list, bin_map[list].name,
-                              bin_map[list].sram_addr, bin_map[list].size,  bin_map[list].bin_addr, bin_map[list].crc);
+			      list, bin_map[list].name,
+			      bin_map[list].sram_addr, bin_map[list].size,  bin_map[list].bin_addr, bin_map[list].crc);
 	}
 
 	return 0;
@@ -663,7 +663,7 @@ static int32_t nt36xxx_download_firmware_hw_crc(struct nt36xxx_ts *ts) {
 	uint32_t bin_addr, sram_addr, size;
 	struct nvt_ts_bin_map *bin_map = ts->bin_map;
 
-        nt36xxx_bootloader_reset(ts);
+	nt36xxx_bootloader_reset(ts);
 
 	for (list = 0; list < ts->fw_data.partition; list++) {
 		int j;
@@ -705,7 +705,7 @@ static int32_t nt36xxx_download_firmware_hw_crc(struct nt36xxx_ts *ts) {
 static void _nt36xxx_boot_download_firmware(struct nt36xxx_ts *ts) {
 	int i, ret, retry = 0;
 	size_t fw_need_write_size = 0;
-        const struct firmware *fw_entry;
+	const struct firmware *fw_entry;
 	u8 val[8 * 4] = {0};
 
 	WARN_ON(ts->hw_crc != 2);
@@ -726,13 +726,13 @@ static void _nt36xxx_boot_download_firmware(struct nt36xxx_ts *ts) {
 	 * pm_resume need to re-upload fw for NT36675 IC
 	 *
 	 */
-        ts->fw_entry.data = devm_kmemdup(ts->dev, fw_entry->data, fw_entry->size, GFP_KERNEL | GFP_DMA);
+	ts->fw_entry.data = devm_kmemdup(ts->dev, fw_entry->data, fw_entry->size, GFP_KERNEL | GFP_DMA);
 
-        release_firmware(fw_entry);
+	release_firmware(fw_entry);
 
 	if (!ts->fw_entry.data) {
 		dev_err(ts->dev, "memdup fw_data fail\n");
-                goto exit;
+		goto exit;
 	}
 	ts->fw_entry.size = fw_entry->size;
 
@@ -757,8 +757,8 @@ static void _nt36xxx_boot_download_firmware(struct nt36xxx_ts *ts) {
 
 	if (*(ts->fw_entry.data + (fw_need_write_size - 4096)) + *(ts->fw_entry.data +
 						((fw_need_write_size - 4096) + 1)) != 0xFF) {
-                dev_err(ts->dev, "bin file FW_VER + FW_VER_BAR should be 0xFF!");
-                dev_err(ts->dev, "FW_VER=0x%02X, FW_VER_BAR=0x%02X\n",
+		dev_err(ts->dev, "bin file FW_VER + FW_VER_BAR should be 0xFF!");
+		dev_err(ts->dev, "FW_VER=0x%02X, FW_VER_BAR=0x%02X\n",
 					*(ts->fw_entry.data+(fw_need_write_size - 4096)),
 					*(ts->fw_entry.data+(fw_need_write_size - 4096 + 1)));
 		goto release_fw;
@@ -779,7 +779,7 @@ upload:
 		ret = nt36xxx_download_firmware_hw_crc(ts);
 		if (ret) {
 			dev_err(ts->dev, "nt36xxx_download_firmware_hw_crc fail!");
-	                goto release_fw_buf;
+			goto release_fw_buf;
 		}
 
 	} else {
@@ -867,34 +867,41 @@ exit:
 
 /*yell*/
 static void nt36xxx_download_firmware(struct work_struct *work) {
-        struct nt36xxx_ts *ts = container_of(work, struct nt36xxx_ts, work.work);
+	struct nt36xxx_ts *ts = container_of(work, struct nt36xxx_ts, work.work);
 	int ret;
 
-        pm_runtime_disable(ts->dev);
+	/* Disable power management runtime for the device */
+	pm_runtime_disable(ts->dev);
 
+	/* Disable the touch screen IRQ to prevent further interrupts */
 	disable_irq_nosync(ts->irq);
 
-        cancel_delayed_work(&ts->work);
+	/* Cancel any pending delayed work */
+	cancel_delayed_work(&ts->work);
 
-        ret = nt36xxx_eng_reset_idle(ts);
-        if (ret) {
-                dev_err(ts->dev, "Failed to check chip version\n");
+	/* Check and configure the touch screen chip after disabling interrupts */
+	ret = nt36xxx_eng_reset_idle(ts);
+	if (ret) {
+		dev_err(ts->dev, "Failed to check chip version\n");
 		goto skip;
-        }
+	}
 
-        /* Set memory maps for the specific chip version */
-        ret = nt36xxx_chip_version_init(ts);
-        if (ret) {
-                dev_err(ts->dev, "Failed to check chip version\n");
+	/* Set memory maps for the specific chip version */
+	ret = nt36xxx_chip_version_init(ts);
+	if (ret) {
+		dev_err(ts->dev, "Failed to check chip version\n");
 		goto skip;
-        }
+	}
 
-        _nt36xxx_boot_download_firmware(ts);
+	/* Download firmware using the internal function */
+	_nt36xxx_boot_download_firmware(ts);
 
 skip:
+	/* Enable touch screen IRQ and power management runtime */
 	enable_irq(ts->irq);
-        pm_runtime_enable(ts->dev);
+	pm_runtime_enable(ts->dev);
 
+	/* If the download is not complete, reschedule the delayed work after 4000ms */
 	if (!(ts->status & NT36XXX_STATUS_DOWNLOAD_COMPLETE)) {
 		cancel_delayed_work(&ts->work);
 		schedule_delayed_work(&ts->work, 4000);
@@ -913,34 +920,43 @@ static int nt36xxx_input_dev_config(struct nt36xxx_ts *ts, const struct input_id
 	struct device *dev = ts->dev;
 	int ret;
 
-        ts->input = devm_input_allocate_device(dev);
-        if (!ts->input)
-                return -ENOMEM;
+	/* Allocate memory for the input device structure */
+	ts->input = devm_input_allocate_device(dev);
+	if (!ts->input)
+		return -ENOMEM;
 
+	/* Set the device-specific data to the allocated input device structure */
 	input_set_drvdata(ts->input, ts);
 
+	/* Set physical path for the input device */
 	ts->input->phys = devm_kasprintf(dev, GFP_KERNEL,
 				     "%s/input0", dev_name(dev));
 	if (!ts->input->phys)
 		return -ENOMEM;
 
+	/* Set input device properties */
 	ts->input->name = "Novatek NT36XXX Touchscreen";
 	ts->input->dev.parent = dev;
 	ts->input->id = *id;
 
+	/* Set absolute parameters for touch events */
 	input_set_abs_params(ts->input, ABS_MT_PRESSURE, 0,
 						 TOUCH_MAX_PRESSURE, 0, 0);
 	input_set_abs_params(ts->input, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
 
+	/* Set absolute parameters for touch position */
 	input_set_abs_params(ts->input, ABS_MT_POSITION_X, 0,
 						 ts->data->abs_x_max - 1, 0, 0);
 	input_set_abs_params(ts->input, ABS_MT_POSITION_Y, 0,
 						 ts->data->abs_y_max - 1, 0, 0);
 
+	/* Parse touchscreen properties */
 	touchscreen_parse_properties(ts->input, true, &ts->prop);
 
+	/* Check if the maximum x-coordinate is valid */
 	WARN_ON(ts->prop.max_x < 1);
 
+	/* Initialize multitouch slots for the input device */
 	ret = input_mt_init_slots(ts->input, TOUCH_MAX_FINGER_NUM,
 				  INPUT_MT_DIRECT | INPUT_MT_DROP_UNUSED);
 	if (ret) {
@@ -948,6 +964,7 @@ static int nt36xxx_input_dev_config(struct nt36xxx_ts *ts, const struct input_id
 		return ret;
 	}
 
+	/* Register the input device */
 	ret = input_register_device(ts->input);
 	if (ret) {
 		dev_err(dev, "Failed to register input device: %d\n",
@@ -964,16 +981,20 @@ int nt36xxx_probe(struct device *dev, int irq, const struct input_id *id,
 	const struct nt36xxx_chip_data *chip_data;
 	int ret;
 
+	/* Allocate memory for the touchscreen data structure */
 	struct nt36xxx_ts *ts = devm_kzalloc(dev, sizeof(struct nt36xxx_ts), GFP_KERNEL);
 	if (!ts)
 		return -ENOMEM;
 
+	/* Set the device-specific data to the allocated structure */
 	dev_set_drvdata(dev, ts);
 
+	/* Retrieve chip-specific data from the device tree */
 	chip_data = of_device_get_match_data(dev);
 	if(!chip_data)
 		return -EINVAL;
 
+	/* Initialize the touchscreen structure with relevant data */
 	ts->dev = dev;
 	ts->regmap = regmap;
 	ts->irq = irq;
@@ -982,21 +1003,25 @@ int nt36xxx_probe(struct device *dev, int irq, const struct input_id *id,
 	memcpy(ts->mmap_data, chip_data->mmap, sizeof(ts->mmap_data));
 	ts->mmap = ts->mmap_data;
 
+	/* Allocate memory for GPIO supplies */
 	ts->supplies = devm_kcalloc(dev, NT36XXX_NUM_SUPPLIES,
 				    sizeof(*ts->supplies), GFP_KERNEL);
 	if (!ts->supplies)
 		return -ENOMEM;
 
+	/* Get and configure the optional reset GPIO */
 	ts->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
 	if (IS_ERR(ts->reset_gpio))
 		return PTR_ERR(ts->reset_gpio);
 
 	gpiod_set_consumer_name(ts->reset_gpio, "nt36xxx reset");
 
+	/* Get and configure the optional IRQ GPIO */
 	ts->irq_gpio = devm_gpiod_get_optional(dev, "irq", GPIOD_IN);
 	if (IS_ERR(ts->irq_gpio))
 		return PTR_ERR(ts->irq_gpio);
 
+	/* If IRQ is not specified, try to obtain it from the IRQ GPIO */
 	if (irq <= 0) {
 		ts->irq = gpiod_to_irq(ts->irq_gpio);
 		if (ts->irq <=0) {
@@ -1009,6 +1034,7 @@ int nt36xxx_probe(struct device *dev, int irq, const struct input_id *id,
 
 	gpiod_set_consumer_name(ts->irq_gpio, "nt36xxx irq");
 
+	/* If the device follows a DRM panel, skip regulator initialization */
 	if (drm_is_panel_follower(dev))
 		goto skip_regulators;
 
@@ -1028,6 +1054,7 @@ int nt36xxx_probe(struct device *dev, int irq, const struct input_id *id,
 	if (ret)
 		return ret;
 
+	/* Delay for regulators to stabilize */
 	usleep_range(10000, 11000);
 
 	ret = devm_add_action_or_reset(dev, nt36xxx_disable_regulators, ts);
@@ -1035,13 +1062,15 @@ int nt36xxx_probe(struct device *dev, int irq, const struct input_id *id,
 		return ret;
 
 skip_regulators:
+	/* Initialize mutex for synchronization */
 	mutex_init(&ts->lock);
 
+	/* Check and configure the touch screen chip */
 	ret = nt36xxx_eng_reset_idle(ts);
-        if (ret) {
-                dev_err(dev, "Failed to check chip version\n");
-                return ret;
-        }
+	if (ret) {
+		dev_err(dev, "Failed to check chip version\n");
+		return ret;
+	}
 
 	/* Set memory maps for the specific chip version */
 	ret = nt36xxx_chip_version_init(ts);
@@ -1050,9 +1079,9 @@ skip_regulators:
 		return ret;
 	}
 
-        /* copy the const mmap into drvdata */
-        memcpy(ts->mmap_data, ts->data->mmap, sizeof(ts->mmap_data));
-        ts->mmap = ts->mmap_data;
+	/* Сopy the const mmap into drvdata */
+	memcpy(ts->mmap_data, ts->data->mmap, sizeof(ts->mmap_data));
+	ts->mmap = ts->mmap_data;
 
 	ret = nt36xxx_input_dev_config(ts, ts->data->id);
 	if (ret) {
@@ -1060,6 +1089,7 @@ skip_regulators:
 			return ret;
 	}
 
+	/* Request threaded IRQ for touch screen interrupts */
 	ret = devm_request_threaded_irq(dev, ts->irq, NULL, nt36xxx_irq_handler,
 			 IRQ_TYPE_EDGE_RISING | IRQF_ONESHOT, dev_name(dev), ts);
 	if (ret) {
@@ -1067,16 +1097,19 @@ skip_regulators:
 			return ret;
 	}
 
+	/* Set up delayed work for firmware download */
 	devm_delayed_work_autocancel(dev, &ts->work, nt36xxx_download_firmware);
 
+	/* Schedule the delayed work */
 	schedule_delayed_work(&ts->work, 0);
 
+	/* If the device follows a DRM panel, configure panel follower */
 	if (drm_is_panel_follower(dev)) {
 		ts->panel_follower.funcs = &nt36xxx_panel_follower_funcs;
 		devm_drm_panel_add_follower(dev, &ts->panel_follower);
 	}
 
-	dev_info(dev, "probe ok!");
+	dev_info(dev, "Novatek touchscreen initialized\n");
 	return 0;
 }
 
@@ -1102,7 +1135,7 @@ static int __maybe_unused nt36xxx_internal_pm_suspend(struct device *dev)
 
 static int __maybe_unused nt36xxx_pm_suspend(struct device *dev)
 {
-        struct nt36xxx_ts *ts = dev_get_drvdata(dev);
+	struct nt36xxx_ts *ts = dev_get_drvdata(dev);
 	int ret=0;
 
 	if (drm_is_panel_follower(dev))
@@ -1129,11 +1162,11 @@ static int __maybe_unused nt36xxx_internal_pm_resume(struct device *dev)
 
 static int __maybe_unused nt36xxx_pm_resume(struct device *dev)
 {
-        struct nt36xxx_ts *ts = dev_get_drvdata(dev);
+	struct nt36xxx_ts *ts = dev_get_drvdata(dev);
 	int ret=0;
 
-        if (drm_is_panel_follower(dev))
-                return 0;
+	if (drm_is_panel_follower(dev))
+		return 0;
 
 	enable_irq(ts->irq);
 
