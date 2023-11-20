@@ -841,8 +841,8 @@ check_fw:
 	if (ret)
 		goto release_fw_buf;
 
-	dev_dbg(ts->dev, "Get default fw_ver=%d, max_x=%d, max_y=%d, by default max_x=%d max_y=%d\n",
-				val[2], ts->prop.max_x, ts->prop.max_y, ts->data->max_x, ts->data->max_y);
+	dev_dbg(ts->dev, "Get default fw_ver=%d, max_x=%d, max_y=%d\n",
+				val[2], ts->prop.max_x, ts->prop.max_y);
 
 	if (val[0] != 0xff && retry < 5) {
 		dev_err(ts->dev, "FW info is broken! fw_ver=0x%02X, ~fw_ver=0x%02X\n", val[1], val[2]);
