@@ -513,7 +513,7 @@ static int nt36xxx_chip_version_init(struct nt36xxx_ts *ts)
 
 				dev_dbg(ts->dev, "hw crc support=%d\n", ts->hw_crc);
 
-				dev_info(ts->dev, "This is NVT touch IC, %06x, mapid %d", *(int*)&buf[4], mapid);
+				dev_info(ts->dev, "This is NVT touch IC, %x, mapid %d", *(int*)&buf[4], mapid);
 				return 0;
 			}
 
