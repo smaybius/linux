@@ -1030,7 +1030,7 @@ int nt36xxx_probe(struct device *dev, int irq, const struct input_id *id,
 			return -EINVAL;
 		}
 
-		dev_info(ts->dev, "irq %d", ts->irq);
+		dev_dbg(ts->dev, "Interrupts GPIO: %#x\n", ts->irq);
 	}
 
 	gpiod_set_consumer_name(ts->irq_gpio, "nt36xxx irq");
