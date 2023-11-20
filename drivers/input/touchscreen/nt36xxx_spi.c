@@ -126,8 +126,10 @@ static int nt36xxx_spi_probe(struct spi_device *spi)
 	size_t max_size;
 	int ret = 0;
 
+	/* Debug log indicating entry into the probe function */
 	dev_dbg(&spi->dev, "%s %d", __func__, __LINE__);
 
+	/* Allocate and copy the default regmap configuration */
 	regmap_config = devm_kmemdup(&spi->dev, &nt36xxx_regmap_config_32bit,
 				     sizeof(*regmap_config), GFP_KERNEL);
 	if (!regmap_config) {
@@ -135,6 +137,7 @@ static int nt36xxx_spi_probe(struct spi_device *spi)
 		return -ENOMEM;
 	}
 
+	/* Set SPI mode and bits per word, and perform SPI setup */
 	spi->mode = SPI_MODE_0;
 	spi->bits_per_word = 8;
 	ret = spi_setup(spi);
@@ -143,20 +146,23 @@ static int nt36xxx_spi_probe(struct spi_device *spi)
 		return ret;
 	}
 
-	/* don't exceed max specified SPI CLK frequency */
+	/* Ensure SPI CLK frequency does not exceed the maximum specified frequency */
 	if (spi->max_speed_hz > MAX_SPI_FREQ_HZ) {
 		dev_err(&spi->dev, "SPI CLK %d Hz?\n", spi->max_speed_hz);
 		return -EINVAL;
 	}
 
+	/* Calculate the maximum raw read and write sizes based on SPI transfer size */
 	max_size = spi_max_transfer_size(spi);
 	regmap_config->max_raw_read = max_size - SPI_READ_PREFIX_LEN;
 	regmap_config->max_raw_write = max_size - SPI_WRITE_PREFIX_LEN;
 
+	/* Initialize the regmap using the provided configuration */
 	regmap = devm_regmap_init(&spi->dev, NULL, spi, regmap_config);
 	if (IS_ERR(regmap))
 		return PTR_ERR(regmap);
 
+	/* Call the main probe function for nt36xxx devices */
 	return nt36xxx_probe(&spi->dev, spi->irq,
 				   &nt36xxx_spi_input_id, regmap);
 }
