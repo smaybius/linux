@@ -1042,8 +1042,6 @@ int nt36xxx_probe(struct device *dev, int irq, const struct input_id *id,
 	/* These supplies are optional, also shared with LCD panel */
 	ts->supplies[0].supply = "vdd";
 	ts->supplies[1].supply = "vio";
-	ts->supplies[2].supply = "vio";
-	ts->supplies[3].supply = "vio";
 	ret = devm_regulator_bulk_get(dev,
 				      NT36XXX_NUM_SUPPLIES,
 				      ts->supplies);
