@@ -113,8 +113,6 @@ struct nt36xxx_chip_data {
 	const u32 *mmap;
 	const struct regmap_config *config;
 
-	unsigned int max_x;
-	unsigned int max_y;
 	unsigned int abs_x_max;
 	unsigned int abs_y_max;
 	unsigned int max_button;
