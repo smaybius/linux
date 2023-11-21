@@ -200,8 +200,8 @@
 		compatible = "ti,tas2564";
 		reg = <0x4d>;
 		#sound-dai-cells = <1>;
-		//pinctrl-names = "default";
-		//pinctrl-0 = <&audio_pa_reset_pin>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&audio_pa_reset_pin>;
 		interrupt-parent = <&tlmm>;
 		interrupts = <58 IRQ_TYPE_EDGE_FALLING>;
 		shutdown-gpios = <&pm8150l_gpios 8 GPIO_ACTIVE_HIGH>;
@@ -277,7 +277,7 @@
 	audio_pa_reset_pin: audio-pa-reset-state {
 		pins = "gpio8";
 		function = PMIC_GPIO_FUNC_NORMAL;
-		output-low;
+		output-high;
 		input-disable;
 		power-source = <1>;
 	};
