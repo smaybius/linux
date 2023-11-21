@@ -478,14 +478,6 @@
 		power-source = <0>;
 	};
 
-	audio_pa_reset_pin: audio-pa-reset-state {
-		pins = "gpio8";
-		function = PMIC_GPIO_FUNC_NORMAL;
-		output-low;
-		input-disable;
-		power-source = <1>;
-	};
-
 	panel_reset_pin: panel-reset-state {
 		pins = "gpio9";
 		function = PMIC_GPIO_FUNC_FUNC1;
