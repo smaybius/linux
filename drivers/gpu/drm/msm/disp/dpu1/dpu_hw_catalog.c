@@ -369,9 +369,11 @@ static const struct dpu_sspp_sub_blks sm6125_vig_sblk_0 =
 					  SSPP_SCALER_VER(2, 4));
 
 static const struct dpu_sspp_sub_blks sm7150_vig_sblk_0 =
-				_VIG_SBLK(4, DPU_SSPP_SCALER_QSEED3LITE);
+				_VIG_SBLK(4, DPU_SSPP_SCALER_QSEED3LITE,
+					  SSPP_SCALER_VER(3, 0));
 static const struct dpu_sspp_sub_blks sm7150_vig_sblk_1 =
-				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3LITE);
+				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED3LITE,
+					  SSPP_SCALER_VER(3, 0));
 
 static const struct dpu_sspp_sub_blks sm8250_vig_sblk_0 =
 				_VIG_SBLK(5, DPU_SSPP_SCALER_QSEED4,
