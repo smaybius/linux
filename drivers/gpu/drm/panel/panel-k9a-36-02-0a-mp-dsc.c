@@ -281,28 +281,8 @@ static int k9a_36_02_0a_mp_dsc_bl_update_status(struct backlight_device *bl)
 	return 0;
 }
 
-// TODO: Check if /sys/class/backlight/.../actual_brightness actually returns
-// correct values. If not, remove this function.
-static int k9a_36_02_0a_mp_dsc_bl_get_brightness(struct backlight_device *bl)
-{
-	struct mipi_dsi_device *dsi = bl_get_data(bl);
-	u16 brightness;
-	int ret;
-
-	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-
-	ret = mipi_dsi_dcs_get_display_brightness_large(dsi, &brightness);
-	if (ret < 0)
-		return ret;
-
-	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-
-	return brightness;
-}
-
 static const struct backlight_ops k9a_36_02_0a_mp_dsc_bl_ops = {
 	.update_status = k9a_36_02_0a_mp_dsc_bl_update_status,
-	.get_brightness = k9a_36_02_0a_mp_dsc_bl_get_brightness,
 };
 
 static struct backlight_device *
@@ -338,7 +318,6 @@ static int k9a_36_02_0a_mp_dsc_probe(struct mipi_dsi_device *dsi)
 	mipi_dsi_set_drvdata(dsi, ctx);
 
 	dsi->lanes = 4;
-	//dsi->format = MIPI_DSI_FMT_RGB888;
 	dsi->format = MIPI_DSI_FMT_RGB101010;
 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
 			  MIPI_DSI_CLOCK_NON_CONTINUOUS | MIPI_DSI_MODE_LPM;
@@ -370,7 +349,7 @@ static int k9a_36_02_0a_mp_dsc_probe(struct mipi_dsi_device *dsi)
 	WARN_ON(1080 % ctx->dsc.slice_width);
 	ctx->dsc.slice_count = 1080 / ctx->dsc.slice_width;
 	ctx->dsc.bits_per_component = 10;
-	ctx->dsc.bits_per_pixel = 8 << 4; /* 4 fractional bits */
+	ctx->dsc.bits_per_pixel = 10 << 4; /* 4 fractional bits */
 	ctx->dsc.block_pred_enable = true;
 
 	ret = mipi_dsi_attach(dsi);
