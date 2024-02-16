@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2023, Danila Tikhonov <danila@jiaxyga.com>
+ * Copyright (c) 2024, Danila Tikhonov <danila@jiaxyga.com>
  */
 
 /dts-v1/;
@@ -13,6 +13,10 @@
 /delete-node/ &ipa_fw_mem;
 /delete-node/ &ipa_gsi_mem;
 /delete-node/ &gpu_mem;
+
+&cont_splash_mem {
+	reg = <0x0 0x9c000000 0x0 (1080 * 2340 * 4)>;
+};
 
 /*
  * Toco uses the SM7150-AB SoC.
@@ -28,21 +32,6 @@
 	compatible = "xiaomi,toco", "qcom,sm7150";
 
 	qcom,board-id = <44 0>;
-
-	chosen {
-		#address-cells = <2>;
-		#size-cells = <2>;
-		ranges;
-		framebuffer@9c000000 {
-			compatible = "simple-framebuffer";
-			reg = <0x0 0x9c000000 0x0 (1080 * 2340 * 4)>;
-			width = <1080>;
-			height = <2340>;
-			stride = <(1080 * 4)>;
-			format = "a8r8g8b8";
-			clocks = <&gcc GCC_DISP_HF_AXI_CLK>;
-		};
-	};
 
 	reserved-memory {
 		adsp_mem: memory@95700000 {
@@ -75,19 +64,9 @@
 			no-map;
 		};
 
-		framebuffer_region@9c000000 {
-			reg = <0x0 0x9c000000 0x0 (1080 * 2340 * 4)>;
-			no-map;
-		};
-
-		/*
-		 * The rmtfs memory region in downstream is 'dynamically allocated'
-		 * but given the same address every time. Hard code it as this address is
-		 * where the modem firmware expects it to be.
-		 */
 		rmtfs_mem: memory@fde01000 {
 			compatible = "qcom,rmtfs-mem";
-			reg = <0 0xfde01000 0 0x600000>;
+			reg = <0 0xfde01000 0 0x200000>;
 			no-map;
 
 			qcom,client-id = <1>;
@@ -96,8 +75,15 @@
 	};
 };
 
-&dispcc {
-	status = "okay";
+&framebuffer {
+	reg = <0x0 0x9c000000 0x0 (1080 * 2340 * 4)>;
+	height = <2340>;
+};
+
+&gpu {
+	zap-shader {
+		firmware-name = "qcom/sm7150/toco/a615_zap.mbn";
+	};
 };
 
 &i2c4 {
@@ -146,19 +132,6 @@
 
 &ipa {
 	firmware-name = "qcom/sm7150/toco/ipa_fws.mbn";
-	status = "okay";
-};
-
-&mdss {
-	status = "okay";
-};
-
-&mdss_dsi0 {
-	status = "okay";
-};
-
-&mdss_dsi0_phy {
-	status = "okay";
 };
 
 &nfc_default {
@@ -179,15 +152,16 @@
 
 &remoteproc_adsp {
 	firmware-name = "qcom/sm7150/toco/adsp.mbn";
-	status = "okay";
 };
 
 &remoteproc_cdsp {
 	firmware-name = "qcom/sm7150/toco/cdsp.mbn";
-	status = "okay";
 };
 
 &remoteproc_mpss {
 	firmware-name = "qcom/sm7150/toco/modem.mbn";
-	status = "okay";
+};
+
+&venus {
+	firmware-name = "qcom/sm7150/toco/venus.mbn";
 };
