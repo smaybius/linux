@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2023, Danila Tikhonov <danila@jiaxyga.com>
- * Copyright (c) 2023, David Wronek <davidwronek@gmail.com>
+ * Copyright (c) 2024, Danila Tikhonov <danila@jiaxyga.com>
+ * Copyright (c) 2024, David Wronek <davidwronek@gmail.com>
+ * Copyright (c) 2024, Jens Reidel <adrian@travitia.xyz>
  */
 
 /dts-v1/;
@@ -12,6 +13,7 @@
 #include <dt-bindings/leds/common.h>
 #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
 #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+#include <dt-bindings/sound/qcom,q6asm.h>
 
 #include "sm7150.dtsi"
 #include "pm6150.dtsi"
@@ -30,7 +32,24 @@
 	};
 
 	chosen {
-		//stdout-path = "serial0:115200n8";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		stdout-path = "serial0:115200n8";
+
+		framebuffer: framebuffer@9c000000 {
+			compatible = "simple-framebuffer";
+			reg = <0x0 0x9c000000 0x0 (1080 * 2400 * 4)>;
+			width = <1080>;
+			height = <2400>;
+			stride = <(1080 * 4)>;
+			format = "a8r8g8b8";
+
+			display = <&panel>;
+
+			clocks = <&gcc GCC_DISP_HF_AXI_CLK>;
+		};
 	};
 
 	gpio_keys: gpio-keys {
@@ -47,6 +66,11 @@
 	};
 
 	reserved-memory {
+		cont_splash_mem: framebuffer@9c000000 {
+			reg = <0x0 0x9c000000 0x0 (1080 * 2400 * 4)>;
+			no-map;
+		};
+
 		ramoops@9d800000 {
 			compatible = "ramoops";
 			reg = <0x0 0x9d800000 0x0 0x400000>;
@@ -382,6 +406,18 @@
 	};
 };
 
+&dispcc {
+	status = "okay";
+};
+
+&cci0 {
+	status = "okay";
+};
+
+&cci1 {
+	status = "okay";
+};
+
 &gpi_dma0 {
 	status = "okay";
 };
@@ -413,10 +449,16 @@
 
 &ipa {
 	memory-region = <&ipa_fw_mem>;
+	status = "okay";
+};
+
+&mdss {
+	status = "okay";
 };
 
 &mdss_dsi0 {
 	vdda-supply = <&vdda_mipi_dsi0_1p2>;
+	status = "okay";
 
 	panel: panel@0 {
 		reg = <0>;
@@ -441,10 +483,12 @@
 &mdss_dsi0_out {
 	data-lanes = <0 1 2 3>;
 	remote-endpoint = <&panel_in>;
+	status = "okay";
 };
 
 &mdss_dsi0_phy {
 	vdds-supply = <&vdda_mipi_dsi0_pll>;
+	status = "okay";
 };
 
 &pm6150_resin {
@@ -535,6 +579,18 @@
 	status = "okay";
 };
 
+&remoteproc_adsp {
+	status = "okay";
+};
+
+&remoteproc_cdsp {
+	status = "okay";
+};
+
+&remoteproc_mpss {
+	status = "okay";
+};
+
 &sdhc_2 {
 	cd-gpios = <&tlmm 69 GPIO_ACTIVE_HIGH>;
 
@@ -547,6 +603,7 @@
 };
 
 &tlmm {
+	/* Reserved I/Os for NFC and FP */
 	gpio-reserved-ranges = <0 4>, <59 4>;
 
 	panel_esd_pin: panel-esd-state {
@@ -778,6 +835,10 @@
 	vdda-pll-supply = <&vdda_usb_hs_1p8>;
 	vdda-phy-dpdm-supply = <&vdda_usb_hs_3p1>;
 	status = "okay";
+};
+
+&venus {
+	//status = "okay";
 };
 
 &wifi {
