@@ -1,12 +1,10 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2023, Danila Tikhonov <danila@jiaxyga.com>
- * Copyright (c) 2023, David Wronek <davidwronek@gmail.com>
+ * Copyright (c) 2024, Danila Tikhonov <danila@jiaxyga.com>
+ * Copyright (c) 2024, David Wronek <davidwronek@gmail.com>
  */
 
 /dts-v1/;
-
-#include <dt-bindings/sound/qcom,q6asm.h>
 
 #include "sm7150-xiaomi-common.dtsi"
 
@@ -19,24 +17,6 @@
 	compatible = "xiaomi,surya", "qcom,sm7150";
 
 	qcom,board-id = <34 0>;
-
-	chosen {
-		#address-cells = <2>;
-		#size-cells = <2>;
-		ranges;
-		framebuffer@9c000000 {
-			compatible = "simple-framebuffer";
-			reg = <0x0 0x9c000000 0x0 (1080 * 2400 * 4)>;
-			width = <1080>;
-			height = <2400>;
-			stride = <(1080 * 4)>;
-			format = "a8r8g8b8";
-
-			display = <&panel>;
-
-			clocks = <&gcc GCC_DISP_HF_AXI_CLK>;
-		};
-	};
 
 	vreg_wide_ldo_avdd2: regulator-wide-ldo-avdd2 {
 		compatible = "regulator-fixed";
@@ -91,33 +71,15 @@
 	};
 
 	reserved-memory {
-		framebuffer_region@9c000000 {
-			reg = <0x0 0x9c000000 0x0 (1080 * 2400 * 4)>;
-			no-map;
-		};
-
-		/*
-		 * The rmtfs memory region in downstream is 'dynamically allocated'
-		 * but given the same address every time. Hard code it as this address is
-		 * where the modem firmware expects it to be.
-		 */
 		rmtfs_mem: memory@fde01000 {
 			compatible = "qcom,rmtfs-mem";
-			reg = <0 0xfde01000 0 0x600000>;
+			reg = <0 0xfde01000 0 0x200000>;
 			no-map;
 
 			qcom,client-id = <1>;
 			qcom,vmid = <QCOM_SCM_VMID_MSS_MSA>;
 		};
 	};
-};
-
-&dispcc {
-	status = "okay";
-};
-
-&cci0 {
-	status = "okay";
 };
 
 &cci0_i2c0 {
@@ -128,14 +90,16 @@
 	/* OmniVision ov02b1b Depth @ 50 */
 };
 
-&cci1 {
-	status = "okay";
-};
-
 &cci1_i2c0 {
 	/* Samsung S5K3T2 Front @ ? */
 	/* Sk Hynix Hi-259 Macro @ ? */
 	/* Sk Hynix Hi-1337 Ultrawide @ ? */
+};
+
+&gpu {
+	zap-shader {
+		firmware-name = "qcom/sm7150/surya/a615_zap.mbn";
+	};
 };
 
 &i2c1 {
@@ -212,21 +176,8 @@
 	/* ti,bq25968 (charger) @ 65 */
 };
 
-&mdss {
-	status = "okay";
-};
-
-&mdss_dsi0 {
-	status = "okay";
-};
-
-&mdss_dsi0_phy {
-	status = "okay";
-};
-
 &ipa {
 	firmware-name = "qcom/sm7150/surya/ipa_fws.mbn";
-	status = "okay";
 };
 
 &nfc_default {
@@ -312,17 +263,14 @@
 
 &remoteproc_adsp {
 	firmware-name = "qcom/sm7150/surya/adsp.mbn";
-	status = "okay";
 };
 
 &remoteproc_cdsp {
 	firmware-name = "qcom/sm7150/surya/cdsp.mbn";
-	status = "okay";
 };
 
 &remoteproc_mpss {
 	firmware-name = "qcom/sm7150/surya/modem.mbn";
-	status = "okay";
 };
 
 &sdhc_2 {
@@ -384,6 +332,7 @@
 };
 
 &tlmm {
+	/* Reserved I/Os for FP */
 	gpio-reserved-ranges = <59 4>;
 
 	gpio-line-names = "GP_HP_SDA", /* GPIO_0 */
@@ -504,7 +453,6 @@
 
 &venus {
 	firmware-name = "qcom/sm7150/surya/venus.mbn";
-	status = "okay";
 };
 
 &vreg_l18a_2p8 {

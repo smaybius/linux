@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 /*
- * Copyright (c) 2023, Danila Tikhonov <danila@jiaxyga.com>
- * Copyright (c) 2023, Kali Prasad <kprasadvnsi@protonmail.com>
- * Copyright (c) 2023, Salvatore Stella <salvatore.stella@univaq.it>
+ * Copyright (c) 2024, Danila Tikhonov <danila@jiaxyga.com>
+ * Copyright (c) 2024, Kali Prasad <kprasadvnsi@protonmail.com>
+ * Copyright (c) 2024, Salvatore Stella <salvatore.stella@univaq.it>
  */
 
 /dts-v1/;
@@ -15,7 +15,6 @@
 /delete-node/ &ipa_gsi_mem;
 /delete-node/ &gpu_mem;
 
-/* Increase the size */
 &adsp_mem {
 	reg = <0x0 0x95700000 0x0 0x2600000>;
 };
@@ -26,30 +25,7 @@
 
 	qcom,board-id = <46 0>;
 
-	chosen {
-		#address-cells = <2>;
-		#size-cells = <2>;
-		ranges;
-		framebuffer@9c000000 {
-			compatible = "simple-framebuffer";
-			reg = <0x0 0x9c000000 0x0 (1080 * 2400 * 4)>;
-			width = <1080>;
-			height = <2400>;
-			stride = <(1080 * 4)>;
-			format = "a8r8g8b8";
-
-			display = <&panel>;
-
-			clocks = <&gcc GCC_DISP_HF_AXI_CLK>;
-		};
-	};
-
 	reserved-memory {
-		framebuffer_region@9c000000 {
-			reg = <0x0 0x9c000000 0x0 (1080 * 2400 * 4)>;
-			no-map;
-		};
-
 		wlan_msa_mem: memory@97d00000 {
 			reg = <0x0 0x97d00000 0x0 0x180000>;
 			no-map;
@@ -75,14 +51,9 @@
 			no-map;
 		};
 
-		/*
-		 * The rmtfs memory region in downstream is 'dynamically allocated'
-		 * but given the same address every time. Hard code it as this address is
-		 * where the modem firmware expects it to be.
-		 */
 		rmtfs_mem: memory@fde01000 {
 			compatible = "qcom,rmtfs-mem";
-			reg = <0 0xfde01000 0 0x600000>;
+			reg = <0 0xfde01000 0 0x200000>;
 			no-map;
 
 			qcom,client-id = <1>;
@@ -93,6 +64,12 @@
 
 &dispcc {
 	status = "okay";
+};
+
+&gpu {
+	zap-shader {
+		firmware-name = "qcom/sm7150/sweet/a615_zap.mbn";
+	};
 };
 
 &i2c4 {
@@ -166,19 +143,6 @@
 
 &ipa {
 	firmware-name = "qcom/sm7150/sweet/ipa_fws.mbn";
-	status = "okay";
-};
-
-&mdss {
-	status = "okay";
-};
-
-&mdss_dsi0 {
-	status = "okay";
-};
-
-&mdss_dsi0_phy {
-	status = "okay";
 };
 
 &nfc_default {
@@ -199,19 +163,20 @@
 
 &remoteproc_adsp {
 	firmware-name = "qcom/sm7150/sweet/adsp.mbn";
-	status = "okay";
 };
 
 &remoteproc_cdsp {
 	firmware-name = "qcom/sm7150/sweet/cdsp.mbn";
-	status = "okay";
 };
 
 &remoteproc_mpss {
 	firmware-name = "qcom/sm7150/sweet/modem.mbn";
-	status = "okay";
 };
 
 &sdhc_2 {
 	status = "okay";
+};
+
+&venus {
+	firmware-name = "qcom/sm7150/sweet/venus.mbn";
 };

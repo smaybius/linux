@@ -2,13 +2,11 @@
 /*
  * SM7150-AA Xiaomi Mi 9T / Redmi K20 specific device tree
  *
- * Copyright (c) 2023, Danila Tikhonov <danila@jiaxyga.com>
- * Copyright (c) 2023, Jens Reidel <adrian@travitia.xyz>
+ * Copyright (c) 2024, Danila Tikhonov <danila@jiaxyga.com>
+ * Copyright (c) 2024, Jens Reidel <adrian@travitia.xyz>
  */
 
 /dts-v1/;
-
-#include <dt-bindings/sound/qcom,q6asm.h>
 
 #include "sm7150-xiaomi-common.dtsi"
 
@@ -18,6 +16,14 @@
 /delete-node/ &ipa_gsi_mem;
 /delete-node/ &gpu_mem;
 
+&adsp_mem {
+	reg = <0x0 0x95700000 0x0 0x2600000>;
+};
+
+&cont_splash_mem {
+	reg = <0x0 0x9c000000 0x0 (1080 * 2340 * 4)>;
+};
+
 /*
  * Davinci uses the SM7150-AA SoC.
  * Limit CPU clock to 2.2 GHz
@@ -25,11 +31,6 @@
 
 &cpu6_opp14 {
 	status = "disabled";
-};
-
-/* Increase the size */
-&adsp_mem {
-	reg = <0x0 0x95700000 0x0 0x2600000>;
 };
 
 / {
@@ -42,30 +43,7 @@
 
 	qcom,board-id = <40 0>;
 
-	chosen {
-		#address-cells = <2>;
-		#size-cells = <2>;
-		ranges;
-		framebuffer@9c000000 {
-			compatible = "simple-framebuffer";
-			reg = <0x0 0x9c000000 0x0 (1080 * 2340 * 4)>;
-			width = <1080>;
-			height = <2340>;
-			stride = <(1080 * 4)>;
-			format = "a8r8g8b8";
-
-			display = <&panel>;
-
-			clocks = <&gcc GCC_DISP_HF_AXI_CLK>;
-		};
-	};
-
 	reserved-memory {
-		framebuffer_region@9c000000 {
-			reg = <0x0 0x9c000000 0x0 (1080 * 2340 * 4)>;
-			no-map;
-		};
-
 		wlan_msa_mem: memory@97d00000 {
 			reg = <0x0 0x97d00000 0x0 0x180000>;
 			no-map;
@@ -91,11 +69,6 @@
 			no-map;
 		};
 
-		/*
-		 * The rmtfs memory region in downstream is 'dynamically allocated'
-		 * but given the same address every time. Hard code it as this address is
-		 * where the modem firmware expects it to be.
-		 */
 		rmtfs_mem: memory@f2e01000 {
 			compatible = "qcom,rmtfs-mem";
 			reg = <0 0xf2e01000 0 0x600000>;
@@ -107,8 +80,15 @@
 	};
 };
 
-&dispcc {
-	status = "okay";
+&framebuffer {
+	reg = <0x0 0x9c000000 0x0 (1080 * 2340 * 4)>;
+	height = <2340>;
+};
+
+&gpu {
+	zap-shader {
+		firmware-name = "qcom/sm7150/davinci/a615_zap.mbn";
+	};
 };
 
 &i2c4 {
@@ -168,19 +148,6 @@
 
 &ipa {
 	firmware-name = "qcom/sm7150/davinci/ipa_fws.mbn";
-	status = "okay";
-};
-
-&mdss {
-	status = "okay";
-};
-
-&mdss_dsi0 {
-	status = "okay";
-};
-
-&mdss_dsi0_phy {
-	status = "okay";
 };
 
 &panel {
@@ -254,17 +221,14 @@
 
 &remoteproc_adsp {
 	firmware-name = "qcom/sm7150/davinci/adsp.mbn";
-	status = "okay";
 };
 
 &remoteproc_cdsp {
 	firmware-name = "qcom/sm7150/davinci/cdsp.mbn";
-	status = "okay";
 };
 
 &remoteproc_mpss {
 	firmware-name = "qcom/sm7150/davinci/modem.mbn";
-	status = "okay";
 };
 
 &sound {
@@ -298,5 +262,4 @@
 
 &venus {
 	firmware-name = "qcom/sm7150/davinci/venus.mbn";
-	status = "okay";
 };
