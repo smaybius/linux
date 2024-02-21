@@ -433,6 +433,11 @@
 	status = "okay";
 };
 
+&i2c1 {
+	status = "okay";
+	clock-frequency = <1000000>;
+};
+
 &i2c2 {
 	status = "okay";
 	clock-frequency = <100000>;
@@ -468,7 +473,16 @@
 	status = "okay";
 	clock-frequency = <1000000>;
 
-	/* st,fts (touchscreen) @ 49 */
+	touchscreen@49 {
+		compatible = "st,stmfts";
+		reg = <0x49>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <1 IRQ_TYPE_NONE>;
+		vdd-supply = <&vreg_l14a_1p8>;		// 1v8
+		avdd-supply = <&vreg_l13a_1p8>;		// 3v3
+		touchscreen-size-x = <1079>;
+		touchscreen-size-y = <2339>;
+	};
 };
 
 &i2c9 {
@@ -517,6 +531,30 @@
 
 		mode-switch;
 		orientation-switch;
+	};
+	
+	drv2624@5a {
+		compatible = "ti,drv2624";
+		reg = <0x5a>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&drv2624_rst>;
+		ti,reset-gpio = <&tlmm 0x0b 0x00>;
+		ti,smart-loop = <0x01>;
+		ti,actuator = <0x01>;
+		ti,rated-voltage = <0x6d>;
+		ti,odclamp-voltage = <0xa1>;
+		ti,lra-frequency = <0xac>;
+		ti,ol-lra-frequency = <0x9b>;
+		ti,bemf-factor = <0x96>;
+		ti,bemf-gain = <0x00>;
+		ti,voltage-comp = <0x12>;
+		ti,blanking-time = <0x02>;
+		ti,idiss-time = <0x02>;
+		ti,zc-det-time = <0x00>;
+		ti,lra-wave-shape = <0x01>;
+		ti,waveform-interval = <0x01>;
+		ti,fb-brake-factor = <0x00>;
+		status = "ok";
 	};
 
 	/* st,m24c08 (e2prom) @ 50 */
@@ -576,11 +614,47 @@
 	};
 };
 
+&dispcc {
+	status = "okay";
+};
+
 &ipa {
 	status = "okay";
 
 	memory-region = <&ipa_fw_mem>;
 	firmware-name = "qcom/sm7150/sunfish/ipa_fws.mbn";
+};
+
+&mdss_dsi0 {
+	panel@0 {
+		compatible = "mdss,sofef01-sdc";
+		reg = <0>;
+
+		reset-gpios = <&tlmm XY GPIO_ACTIVE_LOW>;
+
+		port {
+			panel_in: endpoint {
+				remote-endpoint = <&mdss_dsi0_out>;
+			};
+		};
+	};
+};
+
+&mdss_dsi0_out {
+	data-lanes = <0 1 2 3>;
+	remote-endpoint = <&panel_in>;
+};
+
+
+&pm6150_gpios {
+	touch_power_default: touch_power_default {
+		pins = "gpio4";
+		function = "normal";
+		qcom,drive-strength = <2>;
+		power-source = <1>;
+		output-high;
+		bias-disable;
+	};
 };
 
 &pm6150_pon {
@@ -671,15 +745,21 @@
 	};
 };
 
-&spi0 {
-	status = "okay";
-
-	/* google,citadel @ 0 */
-	/* st,st54j_se @ 1 */
-};
-
 &tlmm {
 	gpio-reserved-ranges = <59 4>;
+	
+	drv2624_rst: drv2624_rst {
+		mux {
+			pins = "gpio11";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio11";
+			drive-strength = <2>;
+			output-low;
+			bias-disable;
+		};
+	};
 
 	rt5514_handshake_ack: rt5514-handshake-ack-state {
 		pins = "gpio30";
@@ -709,6 +789,47 @@
 		drive-strength = <2>;
 		bias-pull-down;
 		input-enable;
+	};
+
+	touch_irq_default: touch_irq_default {
+		mux {
+			pins = "gpio9";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio9";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	touch_reset_default: touch_reset_default {
+		mux {
+			pins = "gpio8";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio8";
+			drive-strength = <2>;
+			output-high;
+			bias-disable;
+		};
+	};
+
+	touch_switch_default: touch_switch_default {
+		mux {
+			pins = "gpio72";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio72";
+			drive-strength = <2>;
+			output-low;
+			bias-disable;
+		};
 	};
 
 	qup_uart3_sleep: qup-uart3-sleep-state {
