@@ -625,12 +625,16 @@
 	firmware-name = "qcom/sm7150/sunfish/ipa_fws.mbn";
 };
 
+&mdss {
+	status = "okay";
+};
+
 &mdss_dsi0 {
 	panel@0 {
 		compatible = "mdss,sofef01-sdc";
 		reg = <0>;
 
-		reset-gpios = <&tlmm XY GPIO_ACTIVE_LOW>;
+		reset-gpios = <&pm8150l_gpios 9 GPIO_ACTIVE_LOW>;
 
 		port {
 			panel_in: endpoint {
@@ -643,7 +647,13 @@
 &mdss_dsi0_out {
 	data-lanes = <0 1 2 3>;
 	remote-endpoint = <&panel_in>;
+	status = "okay";
 };
+	
+&mdss_dsi0_phy {
+	status = "okay";
+};
+	
 
 
 &pm6150_gpios {
