@@ -8,6 +8,7 @@
 
 /dts-v1/;
 
+#include <dt-bindings/arm/qcom,ids.h>
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/leds/common.h>
 #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
@@ -31,12 +32,21 @@
 /delete-node/ &ipa_gsi_mem;
 /delete-node/ &gpu_mem;
 
+/*
+ * Sunfish uses the SM7150-AB SoC.
+ * Limit CPU clock to 2.2 GHz
+ */
+
+ &cpu6_opp14 {
+	status = "disabled";
+};
+
 / {
 	model = "Google Pixel 4a";
 	compatible = "google,sunfish", "qcom,sm7150";
 	chassis-type = "handset";
 
-	qcom,msm-id = <365 0>;
+	qcom,msm-id = <QCOM_ID_SM7150 0>;
 	qcom,board-id = <927749 0>;
 
 	aliases {
@@ -66,8 +76,7 @@
 			 * That's (going to be) a lot of clocks, but it's necessary due
 			 * to unused clk cleanup & no panel driver yet (& no dispcc either)..
 			 */
-			clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
-				 <&gcc GCC_DISP_SF_AXI_CLK>;
+			clocks = <&gcc GCC_DISP_SF_AXI_CLK>;
 		};
 	};
 
@@ -434,9 +443,8 @@
 };
 
 &i2c2 {
-	status = "okay";
 	clock-frequency = <100000>;
-
+	status = "okay";
 	nfc@8 {
 		compatible = "st,st21nfcb-i2c";
 		reg = <0x08>;
@@ -458,23 +466,21 @@
 	rt5514_i2c: codec@57 {
 		compatible = "realtek,rt5514";
 		reg = <0x57>;
-		reset-gpio = <&tlmm 33 0>;
+		reset-gpio = <&tlmm 33 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&rt5514_reset>;
 	};
 };
 
 &i2c7 {
-	status = "okay";
 	clock-frequency = <1000000>;
-
+	status = "okay";
 	/* st,fts (touchscreen) @ 49 */
 };
 
 &i2c9 {
-	status= "okay";
 	clock-frequency = <400000>;
-
+	status= "okay";
 	/* microchip,pac193x (dc power monitor) @ 10 */
 
 	cs35l41_l: amplifier@40 {
@@ -577,10 +583,9 @@
 };
 
 &ipa {
-	status = "okay";
-
 	memory-region = <&ipa_fw_mem>;
 	firmware-name = "qcom/sm7150/sunfish/ipa_fws.mbn";
+	status = "okay";
 };
 
 &pm6150_pon {
@@ -633,18 +638,18 @@
 };
 
 &remoteproc_adsp {
-	status = "okay";
 	firmware-name = "qcom/sm7150/sunfish/adsp.mbn";
+	status = "okay";
 };
 
 &remoteproc_cdsp {
-	status = "okay";
 	firmware-name = "qcom/sm7150/sunfish/cdsp.mbn";
+	status = "okay";
 };
 
 &remoteproc_mpss {
-	status = "okay";
 	firmware-name = "qcom/sm7150/sunfish/modem.mbn";
+	status = "okay";
 };
 
 &spi0 {
@@ -756,8 +761,6 @@
 		vddrf-supply = <&vreg_l2c_1p3>;
 		vddch0-supply = <&vreg_l10c_3p3>;
 		max-speed = <3200000>;
-
-		status = "disabled";
 	};
 };
 
@@ -770,8 +773,6 @@
 
 	vdda-phy-supply = <&vreg_l4a_0p88>;
 	vdda-pll-supply = <&vreg_l3c_1p23>;
-	vdda-phy-max-microamp = <62900>;
-	vdda-pll-max-microamp = <18300>;
 };
 
 &ufs_mem_hc {
