@@ -31,6 +31,13 @@
 /delete-node/ &ipa_fw_mem;
 /delete-node/ &ipa_gsi_mem;
 /delete-node/ &gpu_mem;
+/delete-node/ &hyp_mem;
+/delete-node/ &sec_apps_mem;
+/delete-node/ &smem_mem;
+/delete-node/ &tz_mem;
+/delete-node/ &camera_mem;
+/delete-node/ &qseecom_mem;
+/delete-node/ &sec_cdsp_mem;
 
 /*
  * Sunfish uses the SM7150-AB SoC.
@@ -93,54 +100,89 @@
 		};
 	};
 
-	reserved-memory {
+	reserved-memory { //Sort in order by unit address instead of the name
+		hyp_mem: memory@85700000 {
+			reg = <0x00 0x85700000 0x00 0x600000>;
+			no-map;
+		};
+
+		sec_apps_mem: memory@85fff000 {
+			reg = <0x00 0x85fff000 0x00 0x1000>;
+			no-map;
+		};
+
+		smem_mem: memory@86000000 {
+			reg = <0x00 0x86000000 0x00 0x200000>;
+			no-map;
+		};
+
+		tz_mem: memory@86200000 {
+			reg = <0x00 0x86200000 0x00 0x2d00000>;
+			no-map;
+		};
+
+		camera_mem: memory@8ab00000 {
+			reg = <0x00 0x8ab00000 0x00 0x500000>;
+			no-map;
+		};
+
 		mpss_mem: memory@8b000000 {
 			reg = <0x0 0x8b000000 0x0 0x9800000>;
 			no-map;
 		};
 
-		venus_mem: memory@94800000 {
+		venus_mem: memory@93400000 {
 			reg = <0x00 0x94800000 0x00 0x500000>;
 			no-map;
 		};
 
-		cdsp_mem: memory@94d00000 {
+		cdsp_mem: memory@93900000 {
 			reg = <0x00 0x94d00000 0x00 0x1e00000>;
 			no-map;
 		};
 
-		adsp_mem: memory@96b00000 {
+		adsp_mem: memory@95700000 {
 			reg = <0x00 0x96b00000 0x00 0x2200000>;
 			no-map;
 		};
 
-		wlan_msa_mem: memory@98d00000 {
+		wlan_msa_mem: memory@97500000 {
 			reg = <0x00 0x98d00000 0x00 0x200000>;
 			no-map;
 		};
 
-		npu_mem: memory@98f00000 {
+		npu_mem: memory@97680000 {
 			reg = <0x00 0x98f00000 0x00 0x80000>;
 			no-map;
 		};
 
-		ipa_fw_mem: memory@98f80000 {
+		ipa_fw_mem: memory@97700000 {
 			reg = <0x0 0x98f80000 0x0 0x10000>;
 			no-map;
 		};
 
-		ipa_gsi_mem: memory@98f90000 {
+		ipa_gsi_mem: memory@97710000 {
 			reg = <0x0 0x98f90000 0x0 0x5000>;
 			no-map;
 		};
 
-		gpu_mem: memory@98f95000 {
+		gpu_mem: memory@97715000 {
 			reg = <0x00 0x98f95000 0x00 0x2000>;
 			no-map;
 		};
 
 		framebuffer_region@9c000000 {
 			reg = <0x0 0x9c000000 0x0 (1080 * 2340 * 4)>;
+			no-map;
+		};
+
+		qseecom_mem: memory@9e400000 {
+			reg = <0x00 0x9e400000 0x00 0x1400000>;
+			no-map;
+		};
+
+		sec_cdsp_mem: memory@9f800000 {
+			reg = <0x00 0x9f800000 0x00 0x1e00000>;
 			no-map;
 		};
 
@@ -153,24 +195,6 @@
 			console-size = <0x100000>;
 		};
 	};
-
-	vph_pwr: vph-pwr-regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "vph_pwr";
-		regulator-min-microvolt = <3700000>;
-		regulator-max-microvolt = <3700000>;
-	};
-
-	// S3A is really mx.lvl but it's there for supply map completeness sake.
-	vreg_s3a_0p8: smpa3-regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "vreg_s3a_0p8";
-
-		regulator-min-microvolt = <800000>;
-		regulator-max-microvolt = <800000>;
-		regulator-always-on;
-		vin-supply = <&vph_pwr>;
-	};
 };
 
 &apps_rsc {
@@ -178,135 +202,105 @@
 		compatible = "qcom,pm6150-rpmh-regulators";
 		qcom,pmic-id = "a";
 
-		vdd-s1-supply = <&vph_pwr>;
-		vdd-s2-supply = <&vph_pwr>;
-		vdd-s3-supply = <&vph_pwr>;
-		vdd-s4-supply = <&vph_pwr>;
-		vdd-s5-supply = <&vph_pwr>;
-
-		vdd-l1-supply = <&vreg_s8c_1p2>;
-		vdd-l2-l3-supply = <&vreg_s4a_1p1>;
-		vdd-l4-l7-l8-supply = <&vreg_s4a_1p1>;
-		vdd-l5-l16-l17-l18-l19-supply = <&vreg_bob>;
-		vdd-l6-supply = <&vreg_s8c_1p2>;
-		vdd-l9-supply = <&vreg_s3a_0p8>;
-		vdd-l10-l14-l15-supply = <&vreg_s5a_2p0>;
-		vdd-l11-l12-l13-supply = <&vreg_s5a_2p0>;
-
-		/*
-		 * S1, S4, S5 are unused.
-		 * S2-S3 and L7-L8 are ARCs:
-		 * S2 - gfx.lvl,
-		 * S3 - mx.lvl,
-		 * L7 - lmx.lvl,
-		 * L8 - lcx.lvl.
-		 */
-
-		vreg_s4a_1p1: smps4 {
-			regulator-min-microvolt = <824000>;
-			regulator-max-microvolt = <1120000>;
-			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-		};
-
-		vreg_s5a_2p0: smps5 {
-			regulator-min-microvolt = <1744000>;
-			regulator-max-microvolt = <2040000>;
-			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-		};
-
 		vreg_l1a_1p2: ldo1 {
-			regulator-min-microvolt = <1096000>;
-			regulator-max-microvolt = <1304000>;
+			regulator-min-microvolt = <0x10b940>;
+			regulator-max-microvolt = <0x13e5c0>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l2a_1p0: ldo2 {
-			regulator-min-microvolt = <944000>;
-			regulator-max-microvolt = <1056000>;
+			regulator-min-microvolt = <0xe6780>;
+			regulator-max-microvolt = <0x101d00>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l3a_1p0: ldo3 {
-			regulator-min-microvolt = <968000>;
-			regulator-max-microvolt = <1064000>;
+			regulator-min-microvolt = <0xec540>;
+			regulator-max-microvolt = <0x103c40>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l4a_0p88: ldo4 {
-			regulator-min-microvolt = <824000>;
-			regulator-max-microvolt = <920000>;
+			regulator-min-microvolt = <0xc92c0>;
+			regulator-max-microvolt = <0xe09c0>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l5a_2p7: ldo5 {
-			regulator-min-microvolt = <2600000>;
-			regulator-max-microvolt = <2800000>;
+			regulator-min-microvolt = <0x27ac40>;
+			regulator-max-microvolt = <0x2ab980>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l6a_1p2: ldo6 {
-			regulator-min-microvolt = <1096000>;
-			regulator-max-microvolt = <1304000>;
+			regulator-min-microvolt = <0x10b940>;
+			regulator-max-microvolt = <0x13e5c0>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l9a_0p8: ldo9 {
-			regulator-min-microvolt = <624000>;
-			regulator-max-microvolt = <760000>;
+			regulator-min-microvolt = <0x98580>;
+			regulator-max-microvolt = <0xb98c0>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l10a_1p8: ldo10 {
-			regulator-min-microvolt = <1720000>;
-			regulator-max-microvolt = <1832000>;
+			regulator-min-microvolt = <0x1a3ec0>;
+			regulator-max-microvolt = <0x1bf440>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l11a_1p8: ldo11 {
-			regulator-min-microvolt = <1696000>;
-			regulator-max-microvolt = <1984000>;
+			regulator-min-microvolt = <0x19e100>;
+			regulator-max-microvolt = <0x1e4600>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l12a_1p8: ldo12 {
-			regulator-min-microvolt = <1696000>;
-			regulator-max-microvolt = <1952000>;
+			regulator-min-microvolt = <0x19e100>;
+			regulator-max-microvolt = <0x1dc900>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l13a_1p8: ldo13 {
-			regulator-min-microvolt = <1696000>;
-			regulator-max-microvolt = <1904000>;
+			regulator-min-microvolt = <0x19e100>;
+			regulator-max-microvolt = <0x1d0d80>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l14a_1p8: ldo14 {
-			regulator-min-microvolt = <1720000>;
-			regulator-max-microvolt = <1856000>;
+			regulator-min-microvolt = <0x1a3ec0>;
+			regulator-max-microvolt = <0x1c5200>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l15a_1p8: ldo15 {
-			regulator-min-microvolt = <1696000>;
-			regulator-max-microvolt = <1904000>;
+			regulator-min-microvolt = <0x19e100>;
+			regulator-max-microvolt = <0x1d0d80>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l16a_2p8: ldo16 {
-			regulator-min-microvolt = <2424000>;
-			regulator-max-microvolt = <2976000>;
+			regulator-min-microvolt = <0x24fcc0>;
+			regulator-max-microvolt = "\0-i";
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l17a_3p1: ldo17 {
-			regulator-min-microvolt = <3000000>;
-			regulator-max-microvolt = <3232000>;
+			regulator-min-microvolt = <0x2dc6c0>;
+			regulator-max-microvolt = "\01Q";
+			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+		};
+
+		vreg_l18a_2p8: ldo18 {
+			regulator-min-microvolt = <0x2dc6c0>;
+			regulator-max-microvolt = <0x2dc6c0>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l19a_2p85: ldo19 {
-			regulator-min-microvolt = <2944000>;
-			regulator-max-microvolt = <3304000>;
+			regulator-min-microvolt = <0x2cec00>;
+			regulator-max-microvolt = <0x326a40>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 	};
@@ -315,119 +309,95 @@
 		compatible = "qcom,pm6150l-rpmh-regulators";
 		qcom,pmic-id = "c";
 
-		vdd-s1-supply = <&vph_pwr>;
-		vdd-s2-supply = <&vph_pwr>;
-		vdd-s3-supply = <&vph_pwr>;
-		vdd-s4-supply = <&vph_pwr>;
-		vdd-s5-supply = <&vph_pwr>;
-		vdd-s6-supply = <&vph_pwr>;
-		vdd-s7-supply = <&vph_pwr>;
-		vdd-s8-supply = <&vph_pwr>;
-
-		/*
-		 * There should be:
-		 * vdd-l1-l8-supply = <&vreg_s5a_2p0>;
-		 * But pm7150l doesn't have access to S5A.
-		 */
-		vdd-l2-l3-supply = <&vreg_s8c_1p2>;
-		vdd-l4-l5-l6-supply = <&vreg_bob>;
-		vdd-l7-l11-supply = <&vreg_bob>;
-		vdd-l9-l10-supply = <&vreg_bob>;
-
-		vdd-bob-supply = <&vph_pwr>;
-		vdd-flash-supply = <&vreg_bob>;
-		vdd-rgb-supply = <&vreg_bob>;
-
-		/*
-		 * S4, S5 are unused.
-		 * S2, S3, S7 are ARCs:
-		 * S2-S3 - cx.lvl,
-		 * S7 - mss.lvl.
-		 */
-
 		vreg_s1c_1p13: smps1 {
-			regulator-min-microvolt = <1000000>;
-			regulator-max-microvolt = <1200000>;
-			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+			regulator-min-microvolt = <0xf4240>;
+			regulator-max-microvolt = <0x124f80>;
 		};
 
-		// always-on not supported
-		vreg_s8c_1p2: smps8 {
-			regulator-min-microvolt = <1200000>;
-			regulator-max-microvolt = <1730000>;
-			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
-			//regulator-always-on;
+		vreg_s8c_1p35: smps8 {
+			regulator-min-microvolt = <0x124f80>;
+			regulator-max-microvolt = <0x1a65d0>;
 		};
 
 		vreg_l1c_1p8: ldo1 {
-			regulator-min-microvolt = <1616000>;
-			regulator-max-microvolt = <1984000>;
+			regulator-min-microvolt = <0x18a880>;
+			regulator-max-microvolt = <0x1e4600>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l2c_1p3: ldo2 {
-			regulator-min-microvolt = <1200000>;
-			regulator-max-microvolt = <1352000>;
+			regulator-min-microvolt = <0x124f80>;
+			regulator-max-microvolt = <0x14a140>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l3c_1p23: ldo3 {
-			regulator-min-microvolt = <1144000>;
-			regulator-max-microvolt = <1256000>;
+			regulator-min-microvolt = <0x1174c0>;
+			regulator-max-microvolt = <0x132a40>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l4c_1p8: ldo4 {
-			regulator-min-microvolt = <1648000>;
-			regulator-max-microvolt = <2950000>;
+			regulator-min-microvolt = <0x192580>;
+			regulator-max-microvolt = <0x2d0370>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l5c_1p8: ldo5 {
-			regulator-min-microvolt = <1648000>;
-			regulator-max-microvolt = <2950000>;
+			regulator-min-microvolt = <0x192580>;
+			regulator-max-microvolt = <0x2d0370>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l6c_3p0: ldo6 {
-			regulator-min-microvolt = <2960000>;
-			regulator-max-microvolt = <3304000>;
+			regulator-min-microvolt = <0x2d2a80>;
+			regulator-max-microvolt = <0x326a40>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+			regulator-allow-set-load;
+			regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM
+						   RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l7c_3p0: ldo7 {
-			regulator-min-microvolt = <3000000>;
-			regulator-max-microvolt = <3312000>;
+			regulator-min-microvolt = <0x2dc6c0>;
+			regulator-max-microvolt = <0x328980>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l8c_1p8: ldo8 {
-			regulator-min-microvolt = <1800000>;
-			regulator-max-microvolt = <1900000>;
+			regulator-min-microvolt = <0x1b7740>;
+			regulator-max-microvolt = <0x1cfde0>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
+		/*
+		 * Downstream specifies a range of 2950-3312mV.
+		 * Tighten the range to 2950-3100mV.
+		 */
 		vreg_l9c_3p1: ldo9 {
-			regulator-min-microvolt = <2950000>;
-			regulator-max-microvolt = <3312000>;
+			regulator-min-microvolt = <0x2d0370>;
+			regulator-max-microvolt = <0x328980>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+			regulator-allow-set-load;
+			regulator-allowed-modes = <RPMH_REGULATOR_MODE_LPM
+						   RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l10c_3p3: ldo10 {
-			regulator-min-microvolt = <3200000>;
-			regulator-max-microvolt = <3312000>;
+			regulator-min-microvolt = <0x30d400>;
+			regulator-max-microvolt = <0x328980>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_l11c_3p3: ldo11 {
-			regulator-min-microvolt = <2950000>;
-			regulator-max-microvolt = <3400000>;
+			regulator-min-microvolt = <0x2d0370>;
+			regulator-max-microvolt = <0x33e140>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
 		};
 
 		vreg_bob: bob {
-			regulator-min-microvolt = <3296000>;
-			regulator-max-microvolt = <3960000>;
+			regulator-min-microvolt = "\02K";
+			regulator-max-microvolt = <0x3c6cc0>;
 			regulator-initial-mode = <RPMH_REGULATOR_MODE_AUTO>;
 			regulator-allow-bypass;
 		};
@@ -475,7 +445,16 @@
 &i2c7 {
 	clock-frequency = <1000000>;
 	status = "okay";
-	/* st,fts (touchscreen) @ 49 */
+	touchscreen@49 {
+		compatible = "st,stmfts";
+		reg = <0x49>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <1 IRQ_TYPE_LEVEL_LOW>;
+		touchscreen-size-x = <1079>;
+		touchscreen-size-y = <2339>;
+		avdd-supply = <&vreg_l13a_1p8>;
+		vdd-supply = <&vreg_l14a_1p8>;
+	};
 };
 
 &i2c9 {
@@ -539,44 +518,44 @@
 		regulators {
 			slg51000_a_ldo1: ldo1 {
 				regulator-name = "slg51000_a_ldo1";
-				regulator-min-microvolt = <2250000>;
-				regulator-max-microvolt = <3300000>;
+				regulator-min-microvolt = <0x225510>;
+				regulator-max-microvolt = <0x325aa0>;
 			};
 
 			slg51000_a_ldo2: ldo2 {
 				regulator-name = "slg51000_a_ldo2";
-				regulator-min-microvolt = <2250000>;
-				regulator-max-microvolt = <3300000>;
+				regulator-min-microvolt = <0x225510>;
+				regulator-max-microvolt = <0x325aa0>;
 			};
 
 			slg51000_a_ldo3: ldo3 {
 				regulator-name = "slg51000_a_ldo3";
-				regulator-min-microvolt = <1200000>;
-				regulator-max-microvolt = <3750000>;
+				regulator-min-microvolt = <0x124f80>;
+				regulator-max-microvolt = <0x393870>;
 			};
 
 			slg51000_a_ldo4: ldo4 {
 				regulator-name = "slg51000_a_ldo4";
-				regulator-min-microvolt = <1200000>;
-				regulator-max-microvolt = <3750000>;
+				regulator-min-microvolt = <0x124f80>;
+				regulator-max-microvolt = <0x393870>;
 			};
 
 			slg51000_a_ldo5: ldo5 {
 				regulator-name = "slg51000_a_ldo5";
-				regulator-min-microvolt = <500000>;
-				regulator-max-microvolt = <1200000>;
+				regulator-min-microvolt = <0x7a120>;
+				regulator-max-microvolt = <0x124f80>;
 			};
 
 			slg51000_a_ldo6: ldo6 {
 				regulator-name = "slg51000_a_ldo6";
-				regulator-min-microvolt = <500000>;
-				regulator-max-microvolt = <1200000>;
+				regulator-min-microvolt = <0x7a120>;
+				regulator-max-microvolt = <0x124f80>;
 			};
 
 			slg51000_a_ldo7: ldo7 {
 				regulator-name = "slg51000_a_ldo7";
-				regulator-min-microvolt = <1200000>;
-				regulator-max-microvolt = <3750000>;
+				regulator-min-microvolt = <0x124f80>;
+				regulator-max-microvolt = <0x393870>;
 			};
 		};
 	};
@@ -585,6 +564,35 @@
 &ipa {
 	memory-region = <&ipa_fw_mem>;
 	firmware-name = "qcom/sm7150/sunfish/ipa_fws.mbn";
+	status = "okay";
+};
+
+&mdss {
+	status = "okay";
+};
+
+&mdss_dsi0 {
+	panel@0 {
+		compatible = "mdss,sofef01-sdc";
+		reg = <0>;
+
+		reset-gpios = <&pm6150l_gpios 9 GPIO_ACTIVE_LOW>;
+
+		port {
+			panel_in: endpoint {
+				remote-endpoint = <&mdss_dsi0_out>;
+			};
+		};
+	};
+};
+
+&mdss_dsi0_out {
+	data-lanes = <0 1 2 3>;
+	remote-endpoint = <&panel_in>;
+	status = "okay";
+};
+	
+&mdss_dsi0_phy {
 	status = "okay";
 };
 
