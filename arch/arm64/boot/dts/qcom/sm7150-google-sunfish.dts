@@ -573,7 +573,7 @@
 
 &mdss_dsi0 {
 	panel@0 {
-		compatible = "mdss,sofef01-sdc";
+		compatible = "mdss,sofef00-sdc";
 		reg = <0>;
 
 		reset-gpios = <&pm6150l_gpios 9 GPIO_ACTIVE_LOW>;

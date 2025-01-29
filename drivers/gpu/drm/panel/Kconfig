@@ -711,9 +711,10 @@ config DRM_PANEL_SAMSUNG_SOFEF00
 config DRM_PANEL_SAMSUNG_SOFEF01
 	tristate "Samsung sofef01 cmd mode panel"
 	depends on OF
-	select DRM_MIPI_DSI
+	depends on DRM_MIPI_DSI
 	depends on BACKLIGHT_CLASS_DEVICE
-	select VIDEOMODE_HELPERS
+	depends on VIDEOMODE_HELPERS
+	depends on GPIOLIB
 	help
 	  Say Y or M here if you want to enable support for the Samsung AMOLED
 	  command mode panels found in a few Android phones.
